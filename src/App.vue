@@ -1,28 +1,11 @@
 <template>
   <div class="nunito-font">
-    <q-layout>
-      <Navbar @shopTab="shopTab"></Navbar>
+    <q-layout view="lHh lpr lFf">
+      <Navbar></Navbar>
 
       <q-page-container>
         <q-page>
           <router-view></router-view>
-          <div v-if="shop" class="absolute-top bg-white ">
-            <q-tabs dense class="q-mb-xs" v-model="tab">
-              <q-tab v-for="(cat, i) in categories" :key="i" :ripple="false" class="letter-space-2 q-mx-xs cursor-pointer" :name="cat" :label="cat" />
-              <!-- <span
-                v-for="(cat, i) in categories"
-                :key="i"
-                :ripple="false"
-                class="letter-space-2 q-mx-lg q-my-md cursor-pointer text-uppercase"
-                :name="cat"
-                :class="{ 'text-grey-7': color[cat], 'tab-click': clicked[cat], 'default-border': !clicked[cat] }"
-                @mouseenter="mouseOver(cat)"
-                @mouseleave="mouseOver(cat)"
-                @click="tabClick(cat)"
-                >{{ cat }}
-              </span> -->
-            </q-tabs>
-          </div>
         </q-page>
       </q-page-container>
     </q-layout>
@@ -40,33 +23,26 @@ export default {
   },
   setup() {
     return {
-      tab: ref('all'),
+      // tab: ref('all'),
     };
   },
   data() {
     return {
-      categories: ['all', 'tees', 'shirts', 'pants', 'outers', 'accessories'],
-      shop: false,
+      // categories: ['all', 'tees', 'shirts', 'pants', 'outers', 'accessories'],
+      // shop: false,
     };
   },
   methods: {
-    // mouseOver(btn) {
-    //   this.hover = !this.hover;
-    //   if (this.hover) this.color[btn] = 'grey-7';
-    //   else this.color[btn] = '';
+    // shopTab(condition) {
+    //   this.shop = condition;
+    //   if (this.shop) {
+    //     this.tab = 'all';
+    //     this.$router.push('/shop');
+    //   } else this.$router.push('/');
     // },
-    // tabClick(category) {
-    //   for (const key in this.clicked) {
-    //     if (Object.hasOwnProperty.call(this.clicked, key)) {
-    //       if (key == category) this.clicked[key] = true;
-    //       else this.clicked[key] = false;
-    //     }
-    //   }
-    // },
-    shopTab(condition) {
-      this.shop = condition;
-      if (this.shop) this.tab = 'all';
-    },
+  },
+  created() {
+    this.$store.dispatch('fetchData');
   },
 };
 </script>
