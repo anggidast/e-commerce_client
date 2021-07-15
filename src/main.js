@@ -6,6 +6,8 @@ import { Quasar } from 'quasar';
 import quasarUserOptions from './quasar-user-options';
 // import './assets/global.css';
 
+// Vue.prototype.$baseEndpoint = 'https://dast-ecommerce.herokuapp.com';
+
 createApp(App)
   .use(Quasar, quasarUserOptions)
   .use(store)

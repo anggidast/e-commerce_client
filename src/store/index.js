@@ -3,7 +3,7 @@ import Axios from 'axios';
 import router from '../router';
 
 const axios = Axios.create({
-  baseURL: 'http://dast-ecommerce.herokuapp.com',
+  baseURL: 'https://dast-ecommerce.herokuapp.com',
 });
 
 export default createStore({
@@ -16,6 +16,7 @@ export default createStore({
     isLogin: false,
     register: false,
     isHome: false,
+    routeBefore: '',
   },
   mutations: {
     SET_PRODUCTS(state, payload) {
@@ -50,6 +51,9 @@ export default createStore({
     },
     SET_HOME(state, payload) {
       state.isHome = payload;
+    },
+    SET_ROUTE(state, payload) {
+      state.routeBefore = payload;
     },
   },
   actions: {
