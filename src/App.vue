@@ -43,6 +43,12 @@ export default {
   },
   created() {
     this.$store.dispatch('fetchData');
+    this.$store.dispatch('fetchCart');
+    if (localStorage.access_token) {
+      this.$store.commit('SET_IS_LOGIN', true);
+    } else {
+      this.$store.commit('SET_IS_LOGIN', false);
+    }
   },
 };
 </script>

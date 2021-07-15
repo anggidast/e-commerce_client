@@ -15,23 +15,41 @@
       </q-card>
     </div>
     <router-view></router-view>
+    <!-- <Cart v-if="showCart"></Cart> -->
   </div>
 </template>
 
 <script>
+import Cart from '../components/ShoppingCart.vue';
+
 export default {
   name: 'Shop',
+  components: {
+    Cart,
+  },
   computed: {
     products() {
       return this.$store.state.products;
     },
+    showCart: {
+      get() {
+        return this.$store.state.showCart;
+      },
+      set(value) {
+        this.$store.commit('SHOW_CART', value);
+      },
+    },
   },
   methods: {
     openProduct(id) {
-      this.$store.dispatch('getProduct', id).then(() => {
-        this.$router.push(`/shop/product/${id}`);
-      });
+      this.$store.dispatch('getProduct', id);
+      // .then(() => {
+      //   this.$router.push(`/shop/product/${id}`);
+      // });
     },
+  },
+  created() {
+    this.$store.commit('SET_HOME', false);
   },
 };
 </script>

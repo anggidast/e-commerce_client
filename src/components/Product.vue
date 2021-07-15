@@ -1,14 +1,11 @@
 <template>
   <q-dialog v-model="card">
-    <q-card class="my-card" flat bordered style="width: 700px; max-width: 80vw;">
+    <q-card class="my-card" flat square bordered style="width: 700px; max-width: 80vw;">
       <q-card-section horizontal>
-        <!-- <q-img class="col-6" :src="product.image_url1" /> -->
-        <q-carousel class="col-6" animated v-model="slide" arrows navigation infinite>
-          <q-carousel-slide :name="1" :img-src="product.image_url1" />
-          <q-carousel-slide :name="2" :img-src="product.image_url1" />
-          <!-- <q-carousel-slide :name="2" img-src="https://cdn.quasar.dev/img/parallax1.jpg" />
-      <q-carousel-slide :name="3" img-src="https://cdn.quasar.dev/img/parallax2.jpg" />
-      <q-carousel-slide :name="4" img-src="https://cdn.quasar.dev/img/quasar.jpg" /> -->
+        <q-carousel class="col-6" animated v-model="slide" arrows infinite control-color="grey-7" navigation swipeable>
+          <q-carousel-slide v-for="(url, i) in image_urls" :key="i" :name="i + 1">
+            <q-img :src="product[`image_url${i + 1}`]" />
+          </q-carousel-slide>
         </q-carousel>
 
         <q-card-section>
@@ -22,7 +19,15 @@
             optio voluptatem autem, commodi reprehenderit cum modi iusto excepturi et enim illum?
           </div>
           <div class="q-ml-xs q-mt-lg q-mb-xs text-caption text-grey-7">Stock: {{ product.stock }}</div>
-          <q-btn class="full-width" color="black" size="md" label="add to cart" />
+          <q-btn
+            @click="addToCart(product.id)"
+            v-close-popup
+            class="full-width"
+            color="black"
+            size="md"
+            label="add to cart"
+            icon-right="o_shopping_bag"
+          />
         </q-card-section>
 
         <!-- <q-card-section class="q-mb-sm"> -->
@@ -47,6 +52,8 @@
         </q-btn>
       </q-card-actions> -->
     </q-card>
+    <!-- <Cart v-if="showCart"></Cart> -->
+
     <!-- <q-card class="my-card">
       <q-card-section class="q-mb-sm">
         <div class="q-ma-xs absolute-right">
@@ -91,18 +98,49 @@
 </template>
 
 <script>
+import Cart from '../components/ShoppingCart.vue';
 import { ref } from 'vue';
+
 export default {
+  name: 'Product',
+  components: {
+    Cart,
+  },
   setup() {
     return {
       card: ref(true),
       slide: ref(1),
     };
   },
+  data() {
+    return {};
+  },
   computed: {
     product() {
-      console.log(this.$store.state.product);
       return this.$store.state.product;
+    },
+    image_urls() {
+      return this.$store.getters.url;
+    },
+    // showCart: {
+    //   get() {
+    //     return this.$store.state.showCart;
+    //   },
+    //   set(value) {
+    //     this.$store.commit('SHOW_CART', value);
+    //   },
+    // },
+    isLogin() {
+      return this.$store.state.isLogin;
+    },
+  },
+  methods: {
+    addToCart(id) {
+      if (!this.isLogin) this.$router.push('/login');
+      else {
+        this.$store.dispatch('addCart', id);
+        this.$router.push('/shop/cart');
+      }
     },
   },
   created() {},

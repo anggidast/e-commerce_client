@@ -13,15 +13,23 @@
         >
 
         <div class="q-pa-md q-gutter-sm absolute-right">
-          <q-btn dense :ripple="false" flat round class="text-dark" icon="person_outline" :color="color.person" />
-          <q-btn dense :ripple="false" flat round class="text-dark" icon="o_shopping_bag" :color="color.bag"
-            ><q-badge color="green" floating transparent>0</q-badge></q-btn
-          >
+          <q-btn dense :ripple="false" flat round class="text-dark" icon="person_outline" @click="login" :color="color.person">
+            <q-menu dense v-if="isLogin">
+              <q-list dense style="min-width: 100px">
+                <q-item dense clickable v-close-popup>
+                  <q-item-section dense @click="logout">SIGN OUT</q-item-section>
+                </q-item>
+              </q-list>
+            </q-menu>
+          </q-btn>
+          <q-btn @click="showCart" dense :ripple="false" flat round class="text-dark" icon="o_shopping_bag" :color="color.bag">
+            <q-badge v-if="carts.length > 0" color="green" floating transparent>{{ carts.length }}</q-badge>
+          </q-btn>
         </div>
       </q-toolbar>
 
       <div v-if="search" class="q-mx-auto q-pt-xs q-pb-sm" style="max-width: 350px">
-        <q-input square outlined v-model="text" label="Search" dense width="300px">
+        <q-input square outlined v-model="text" label="Search" dense>
           <template v-slot:append>
             <q-icon name="close" @click="(text = ''), (search = !search)" class="cursor-pointer" />
           </template>
@@ -71,7 +79,7 @@ export default {
   data() {
     return {
       hover: false,
-      categories: ['all', 'tees', 'Shirts', 'pants', 'outers', 'Accessories'],
+      categories: ['all', 'tees', 'Shirts', 'Pants', 'Outers', 'Accessories'],
       color: {
         person: '',
         bag: '',
@@ -81,7 +89,18 @@ export default {
       shop: false,
     };
   },
-
+  computed: {
+    carts() {
+      return this.$store.state.carts;
+    },
+    isLogin() {
+      return this.$store.state.isLogin;
+    },
+    isHome() {
+      if (this.$store.state.isHome) return 'home';
+      else 'shop';
+    },
+  },
   methods: {
     changeTab(home) {
       if (this.tab == 'shop' && !home) {
@@ -100,14 +119,27 @@ export default {
         }
       });
     },
+    showCart() {
+      if (this.isLogin) {
+        if (this.$route.path == '/') {
+          this.$router.push('/cart');
+        } else {
+          this.$router.push(`${this.$route.path}/cart`);
+        }
+      } else this.$router.push('/login');
+    },
+    login() {
+      if (!this.isLogin) this.$router.push('/login');
+    },
+    logout() {
+      localStorage.clear();
+      this.$store.commit('SET_IS_LOGIN', false);
+      this.$store.commit('SET_CARTS', []);
+      // this.$router.push('/login');
+    },
   },
   created() {
     // console.log(this.$route.path);
-    // console.log(this.tab);
-    // if (this.$route.path == '/shop') {
-    //   console.log('masuk');
-    //   this.tab = 'shop';
-    // }
     if (this.tab == 'home') {
       this.$router.push('/');
     }

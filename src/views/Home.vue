@@ -7,6 +7,7 @@
         <q-btn outline color="white" label="shop now" />
       </div>
     </q-img>
+    <router-view></router-view>
   </div>
 </template>
 
@@ -16,6 +17,12 @@
 export default {
   name: 'Home',
   components: {},
+  created() {
+    this.$store.commit('SET_HOME', true);
+  },
+  mounted() {
+    this.$store.dispatch('fetchCart');
+  },
 };
 </script>
 
