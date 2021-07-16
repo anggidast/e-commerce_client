@@ -123,7 +123,7 @@ export default {
         } else {
           this.$router.push(`${this.$route.path}/cart`);
         }
-      } else this.$router.push('/login');
+      } else this.login(this.$route.path);
     },
     login(path) {
       if (!this.isLogin) {

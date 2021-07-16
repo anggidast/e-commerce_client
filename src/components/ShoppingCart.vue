@@ -25,7 +25,7 @@
                     square
                     outlined
                     v-model="cart.amount"
-                    @change="editCart(cart.amount, cart.id)"
+                    @change="editCart(cart.amount, cart.Product.stock, cart.id)"
                   ></q-input>
                 </div>
               </q-card-section>
@@ -70,11 +70,13 @@ export default {
     },
   },
   methods: {
-    editCart(amount, id) {
-      this.$store.dispatch('editCart', {
-        amount,
-        id,
-      });
+    editCart(amount, stock, id) {
+      if (amount <= stock) {
+        this.$store.dispatch('editCart', {
+          amount,
+          id,
+        });
+      }
     },
     deleteCart(id) {
       this.$store.dispatch('deleteCart', id);
