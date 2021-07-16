@@ -20,7 +20,7 @@
           </div>
           <div class="q-ml-xs q-mt-lg q-mb-xs text-caption text-grey-7">Stock: {{ product.stock }}</div>
           <q-btn
-            @click="addToCart(product.id)"
+            @click="addToCart(product.id, $route.path)"
             v-close-popup
             class="full-width"
             color="black"
@@ -122,6 +122,14 @@ export default {
     image_urls() {
       return this.$store.getters.url;
     },
+    routeBefore: {
+      get() {
+        return this.$store.state.routeBefore;
+      },
+      set(value) {
+        this.$store.commit('SET_ROUTE', value);
+      }
+    },
     // showCart: {
     //   get() {
     //     return this.$store.state.showCart;
@@ -135,8 +143,11 @@ export default {
     },
   },
   methods: {
-    addToCart(id) {
-      if (!this.isLogin) this.$router.push('/login');
+    addToCart(id, path) {
+      if (!this.isLogin) {
+        this.routeBefore = path;
+        this.$router.push('/login');
+      }
       else {
         this.$store.dispatch('addCart', id);
         this.$router.push('/shop/cart');

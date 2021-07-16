@@ -50,6 +50,9 @@ export default {
   },
   created() {
     this.$store.commit('SET_HOME', false);
+    this.$store.dispatch('fetchCart');
+  },
+  mounted() {
   },
 };
 </script>

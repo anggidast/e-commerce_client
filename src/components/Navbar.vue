@@ -3,7 +3,7 @@
     <q-header class="q-py-xs text-dark bg-white">
       <q-toolbar>
         <div class="q-pa-md q-gutter-sm absolute-left">
-          <q-btn dense :ripple="false" flat round class="text-dark" icon="search" @click="search = !search" :color="color.search" />
+          <q-btn dense :ripple="false" flat round class="text-dark" icon="search" @click="keyword = '', search = !search" :color="color.search" />
         </div>
         <q-toolbar-title
           class="q-mt-sm q-pb-xs text-h4 text-center text-grey-8 poppins-font cursor-pointer"
@@ -13,7 +13,7 @@
         >
 
         <div class="q-pa-md q-gutter-sm absolute-right">
-          <q-btn dense :ripple="false" flat round class="text-dark" icon="person_outline" @click="login" :color="color.person">
+          <q-btn dense :ripple="false" flat round class="text-dark" icon="person_outline" @click="login($route.path)" :color="color.person">
             <q-menu dense v-if="isLogin">
               <q-list dense style="min-width: 100px">
                 <q-item dense clickable v-close-popup>
@@ -29,7 +29,7 @@
       </q-toolbar>
 
       <div v-if="search" class="q-mx-auto q-pt-xs q-pb-sm" style="max-width: 350px">
-        <q-input square outlined v-model="text" label="Search" dense>
+        <q-input @keyup="searchKeyword" square outlined v-model="keyword" label="Search" dense>
           <template v-slot:append>
             <q-icon name="close" @click="(text = ''), (search = !search)" class="cursor-pointer" />
           </template>
@@ -44,18 +44,6 @@
       <div v-if="shop" class="bg-white">
         <q-tabs dense class="q-mb-xs" v-model="catTab" @click="changeCategory">
           <q-tab v-for="(cat, i) in categories" :key="i" :ripple="false" class="letter-space q-mx-xs cursor-pointer" :name="cat" :label="cat" />
-          <!-- <span
-                v-for="(cat, i) in categories"
-                :key="i"
-                :ripple="false"
-                class="letter-space-2 q-mx-lg q-my-md cursor-pointer text-uppercase"
-                :name="cat"
-                :class="{ 'text-grey-7': color[cat], 'tab-click': clicked[cat], 'default-border': !clicked[cat] }"
-                @mouseenter="mouseOver(cat)"
-                @mouseleave="mouseOver(cat)"
-                @click="tabClick(cat)"
-                >{{ cat }}
-              </span> -->
         </q-tabs>
       </div>
     </q-header>
@@ -72,7 +60,7 @@ export default {
     return {
       tab: ref('home'),
       catTab: ref('all'),
-      text: ref(''),
+      keyword: ref(''),
     };
   },
 
@@ -100,12 +88,21 @@ export default {
       if (this.$store.state.isHome) return 'home';
       else 'shop';
     },
+    routeBefore: {
+      get() {
+        return this.$store.state.routeBefore;
+      },
+      set(value) {
+        this.$store.commit('SET_ROUTE', value);
+      }
+    }
   },
   methods: {
     changeTab(home) {
       if (this.tab == 'shop' && !home) {
         this.shop = true;
-        this.catTab = 'all';
+        // this.catTab = 'all';
+        // this.changeCategory();
         this.$router.push('/shop');
       } else if (this.tab == 'home' || home) {
         this.shop = false;
@@ -128,8 +125,11 @@ export default {
         }
       } else this.$router.push('/login');
     },
-    login() {
-      if (!this.isLogin) this.$router.push('/login');
+    login(path) {
+      if (!this.isLogin) {
+        this.routeBefore = path;
+        this.$router.push('/login');
+      }
     },
     logout() {
       localStorage.clear();
@@ -137,12 +137,27 @@ export default {
       this.$store.commit('SET_CARTS', []);
       // this.$router.push('/login');
     },
+    // ! belum berfungsi
+    searchKeyword() {
+      console.log(this.keyword);
+      // for (i = 0; i < li.length; i++) {
+      //   a = li[i].getElementsByTagName("a")[0];
+      //   txtValue = a.textContent || a.innerText;
+      //   if (txtValue.toUpperCase().indexOf(filter) > -1) {
+      //     li[i].style.display = "";
+      //   } else {
+      //     li[i].style.display = "none";
+      //   }
+      // }
+      // this.$store.commit('KEYWORD_FILTER', this.keyword);
+    }
   },
   created() {
     // console.log(this.$route.path);
     if (this.tab == 'home') {
       this.$router.push('/');
     }
+    // this.changeCategory();
   },
 };
 </script>

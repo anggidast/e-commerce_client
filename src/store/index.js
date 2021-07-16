@@ -39,6 +39,7 @@ export default createStore({
     },
     SET_CARTS(state, payload) {
       state.carts = payload;
+      state.carts.sort((a, b) => (a['createdAt'] > b['createdAt'] ? -1 : 1));
     },
     SHOW_CART(state, payload) {
       state.showCart = payload;
@@ -55,6 +56,18 @@ export default createStore({
     SET_ROUTE(state, payload) {
       state.routeBefore = payload;
     },
+    // ! belum berfungsi
+    // KEYWORD_FILTER(state, keyword) {
+    //   console.log(keyword);
+    //   state.products = state.categorizedProducts;
+    //     let filteredProducts = []
+    //     state.products.forEach((el) => {
+    //       let index = el.name.toLowerCase().indexOf(keyword)
+    //       console.log(index);
+    //       if(index != -1) filteredProducts.push(state.products[index])
+    //     });
+    //     if(filteredProducts.length > 0) state.products = filteredProducts
+    // },
   },
   actions: {
     fetchData(context) {
@@ -179,7 +192,7 @@ export default createStore({
           console.log(result);
           context.commit('SET_IS_LOGIN', true);
           localStorage.setItem('access_token', result.data.access_token);
-          router.push('/');
+          router.push(context.state.routeBefore);
         })
         .catch((err) => {
           console.log(err);
