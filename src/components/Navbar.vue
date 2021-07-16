@@ -22,7 +22,7 @@
               </q-list>
             </q-menu>
           </q-btn>
-          <q-btn @click="login($route.path)" dense :ripple="false" flat round class="text-dark" icon="o_shopping_bag" :color="color.bag">
+          <q-btn @click="showCart" dense :ripple="false" flat round class="text-dark" icon="o_shopping_bag" :color="color.bag">
             <q-badge v-if="carts.length > 0" color="green" floating transparent>{{ carts.length }}</q-badge>
           </q-btn>
         </div>

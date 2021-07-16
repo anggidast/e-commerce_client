@@ -26,7 +26,6 @@
                     outlined
                     v-model="cart.amount"
                     @change="editCart(cart.amount, cart.id)"
-                    :rules="[(val) => val <= cart.Product.stock || 'Cart quantity cannot be more product stock']"
                   ></q-input>
                 </div>
               </q-card-section>
