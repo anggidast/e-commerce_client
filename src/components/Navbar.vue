@@ -3,7 +3,7 @@
     <q-header class="q-py-xs text-dark bg-white">
       <q-toolbar>
         <div class="q-pa-md q-gutter-sm absolute-left">
-          <q-btn dense :ripple="false" flat round class="text-dark" icon="search" @click="keyword = '', search = !search" :color="color.search" />
+          <q-btn dense :ripple="false" flat round class="text-dark" icon="search" @click="(keyword = ''), (search = !search)" :color="color.search" />
         </div>
         <q-toolbar-title
           class="q-mt-sm q-pb-xs text-h4 text-center text-grey-8 poppins-font cursor-pointer"
@@ -22,7 +22,7 @@
               </q-list>
             </q-menu>
           </q-btn>
-          <q-btn @click="showCart" dense :ripple="false" flat round class="text-dark" icon="o_shopping_bag" :color="color.bag">
+          <q-btn @click="login($route.path)" dense :ripple="false" flat round class="text-dark" icon="o_shopping_bag" :color="color.bag">
             <q-badge v-if="carts.length > 0" color="green" floating transparent>{{ carts.length }}</q-badge>
           </q-btn>
         </div>
@@ -94,8 +94,8 @@ export default {
       },
       set(value) {
         this.$store.commit('SET_ROUTE', value);
-      }
-    }
+      },
+    },
   },
   methods: {
     changeTab(home) {
@@ -150,7 +150,7 @@ export default {
       //   }
       // }
       // this.$store.commit('KEYWORD_FILTER', this.keyword);
-    }
+    },
   },
   created() {
     // console.log(this.$route.path);
