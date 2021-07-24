@@ -71,20 +71,18 @@ export default {
   },
   methods: {
     editCart(amount, stock, id) {
-      if (amount <= stock) {
+      if (amount <= stock && amount > 0) {
         this.$store.dispatch('editCart', {
           amount,
           id,
         });
+      } else {
+        // TODO give some alert
+        this.$store.dispatch('fetchCart');
       }
     },
     deleteCart(id) {
       this.$store.dispatch('deleteCart', id);
-    },
-    validation(amount, stock) {
-      // if(amount > stock)
-      if (amount > stock) return false;
-      console.log(this.cart.amount, 'masuk');
     },
   },
   created() {

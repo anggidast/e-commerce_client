@@ -21,7 +21,7 @@
     <q-card-section horizontal>
       <q-space />
       <span class="text-caption"
-        >Already have an account? <router-link to="/login" class="text-black text-body2" style="text-decoration: none;">Sign Up</router-link></span
+        >Already have an account? <router-link to="/login" class="text-black text-body2" style="text-decoration: none;">Sign In</router-link></span
       >
       <q-space />
     </q-card-section>
@@ -38,6 +38,16 @@ export default {
       isPwd: true,
     };
   },
+  computed: {
+    loginCart: {
+      get() {
+        return this.$store.state.loginCart;
+      },
+      set(value) {
+        this.$store.commit('SET_LOGIN_CART', value);
+      },
+    },
+  },
   methods: {
     register() {
       this.$store.dispatch('register', {
@@ -45,6 +55,9 @@ export default {
         password: this.password,
       });
     },
+  },
+  unmounted() {
+    if (this.$route.path != '/login') this.loginCart = false;
   },
 };
 </script>

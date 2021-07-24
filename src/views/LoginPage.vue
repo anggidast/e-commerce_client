@@ -38,6 +38,16 @@ export default {
       isPwd: true,
     };
   },
+  computed: {
+    loginCart: {
+      get() {
+        return this.$store.state.loginCart;
+      },
+      set(value) {
+        this.$store.commit('SET_LOGIN_CART', value);
+      },
+    },
+  },
   methods: {
     login() {
       this.$store.dispatch('login', {
@@ -45,6 +55,9 @@ export default {
         password: this.password,
       });
     },
+  },
+  unmounted() {
+    if (this.$route.path != '/register') this.loginCart = false;
   },
 };
 </script>

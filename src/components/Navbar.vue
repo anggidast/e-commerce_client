@@ -41,7 +41,7 @@
         <q-tab :ripple="false" class="letter-space q-mx-sm q-mt-xs" name="shop" label="shop" />
       </q-tabs>
 
-      <div v-if="shop" class="bg-white">
+      <div v-if="shop && !loginCart" class="bg-white">
         <q-tabs dense class="q-mb-xs" v-model="catTab" @click="changeCategory">
           <q-tab v-for="(cat, i) in categories" :key="i" :ripple="false" class="letter-space q-mx-xs cursor-pointer" :name="cat" :label="cat" />
         </q-tabs>
@@ -84,16 +84,24 @@ export default {
     isLogin() {
       return this.$store.state.isLogin;
     },
-    isHome() {
-      if (this.$store.state.isHome) return 'home';
-      else 'shop';
-    },
+    // isHome() {
+    //   if (this.$store.state.isHome) return 'home';
+    //   else 'shop';
+    // },
     routeBefore: {
       get() {
         return this.$store.state.routeBefore;
       },
       set(value) {
         this.$store.commit('SET_ROUTE', value);
+      },
+    },
+    loginCart: {
+      get() {
+        return this.$store.state.loginCart;
+      },
+      set(value) {
+        this.$store.commit('SET_LOGIN_CART', value);
       },
     },
   },
@@ -123,10 +131,14 @@ export default {
         } else {
           this.$router.push(`${this.$route.path}/cart`);
         }
-      } else this.login(this.$route.path);
+      } else {
+        this.shop = false;
+        this.login(this.$route.path);
+      }
     },
     login(path) {
       if (!this.isLogin) {
+        this.shop = false;
         this.routeBefore = path;
         this.$router.push('/login');
       }
@@ -153,11 +165,9 @@ export default {
     },
   },
   created() {
-    // console.log(this.$route.path);
     if (this.tab == 'home') {
       this.$router.push('/');
     }
-    // this.changeCategory();
   },
 };
 </script>

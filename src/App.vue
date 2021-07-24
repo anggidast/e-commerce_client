@@ -21,26 +21,6 @@ export default {
   components: {
     Navbar,
   },
-  setup() {
-    return {
-      // tab: ref('all'),
-    };
-  },
-  data() {
-    return {
-      // categories: ['all', 'tees', 'shirts', 'pants', 'outers', 'accessories'],
-      // shop: false,
-    };
-  },
-  methods: {
-    // shopTab(condition) {
-    //   this.shop = condition;
-    //   if (this.shop) {
-    //     this.tab = 'all';
-    //     this.$router.push('/shop');
-    //   } else this.$router.push('/');
-    // },
-  },
   created() {
     this.$store.dispatch('fetchData');
     this.$store.dispatch('fetchCart');

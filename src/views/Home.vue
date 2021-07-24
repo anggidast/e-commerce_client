@@ -16,13 +16,16 @@
 
 export default {
   name: 'Home',
-  components: {},
+  computed: {
+    isLogin() {
+      return this.$store.state.isLogin;
+    },
+  },
   created() {
     this.$store.commit('SET_HOME', true);
-    this.$store.dispatch('fetchCart');
+    if (this.isLogin) this.$store.dispatch('fetchCart');
   },
-  mounted() {
-  },
+  mounted() {},
 };
 </script>
 

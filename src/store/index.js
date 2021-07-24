@@ -3,7 +3,8 @@ import Axios from 'axios';
 import router from '../router';
 
 const axios = Axios.create({
-  baseURL: 'https://dast-ecommerce.herokuapp.com',
+  // baseURL: 'https://dast-ecommerce.herokuapp.com',
+  baseURL: 'http://localhost:3000',
 });
 
 export default createStore({
@@ -17,6 +18,7 @@ export default createStore({
     register: false,
     isHome: false,
     routeBefore: '',
+    loginCart: false,
   },
   mutations: {
     SET_PRODUCTS(state, payload) {
@@ -28,7 +30,7 @@ export default createStore({
       state.products = state.allProducts;
       if (category != 'all') {
         if (category == 'tees') {
-          state.products = state.products.filter((el) => el.category == 'T-Shirt');
+          state.products = state.products.filter((el) => el.category == 'T-Shirts');
         } else {
           state.products = state.products.filter((el) => el.category == category);
         }
@@ -56,6 +58,9 @@ export default createStore({
     SET_ROUTE(state, payload) {
       state.routeBefore = payload;
     },
+    SET_LOGIN_CART(state, payload) {
+      state.loginCart = payload;
+    },
     // ! belum berfungsi
     // KEYWORD_FILTER(state, keyword) {
     //   console.log(keyword);
@@ -74,27 +79,19 @@ export default createStore({
       axios({
         method: 'GET',
         url: '/products',
-        headers: {
-          access_token:
-            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwicm9sZSI6ImN1c3RvbWVyIiwiaWF0IjoxNjI1ODQ4Mzc0fQ.g2kW9X__C11GqaBGhMKBGr_OeWeBmHEFIItl0OdfjMM',
-        },
       })
         .then((result) => {
           console.log(result.data);
           context.commit('SET_PRODUCTS', result.data.data);
         })
         .catch((err) => {
-          console.log(err);
+          console.log(err.response.data.message);
         });
     },
     getProduct(context, id) {
       axios({
         method: 'GET',
         url: '/products/' + id,
-        headers: {
-          access_token:
-            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwicm9sZSI6ImN1c3RvbWVyIiwiaWF0IjoxNjI1ODQ4Mzc0fQ.g2kW9X__C11GqaBGhMKBGr_OeWeBmHEFIItl0OdfjMM',
-        },
       })
         .then((result) => {
           console.log(result);
@@ -102,7 +99,7 @@ export default createStore({
           router.push(`/shop/product/${id}`);
         })
         .catch((err) => {
-          console.log(err);
+          console.log(err.response.data.message);
         });
     },
     addCart(context, id) {
@@ -118,13 +115,9 @@ export default createStore({
       })
         .then((result) => {
           console.log(result);
-          // if (result.data.message == 'created') {
-          // }
-          // context.dispatch('fetchData');
-          // context.commit('SET_LOADING', 'done');
         })
         .catch((err) => {
-          console.log(err);
+          console.log(err.response.data.message);
         });
     },
     fetchCart(context) {
@@ -140,7 +133,7 @@ export default createStore({
           context.commit('SET_CARTS', result.data.data);
         })
         .catch((err) => {
-          console.log(err);
+          console.log(err.response.data.message);
         });
     },
     editCart(context, payload) {
@@ -159,7 +152,7 @@ export default createStore({
           context.dispatch('fetchCart');
         })
         .catch((err) => {
-          console.log(err);
+          console.log(err.response.data.message);
         });
     },
     deleteCart(context, id) {
@@ -176,7 +169,7 @@ export default createStore({
           context.dispatch('fetchCart');
         })
         .catch((err) => {
-          console.log(err);
+          console.log(err.response.data.message);
         });
     },
     login(context, payload) {
@@ -195,7 +188,7 @@ export default createStore({
           router.push(context.state.routeBefore);
         })
         .catch((err) => {
-          console.log(err);
+          console.log(err.response.data.message);
         });
     },
     register(context, payload) {
@@ -213,7 +206,7 @@ export default createStore({
           router.push('/login');
         })
         .catch((err) => {
-          console.log(err);
+          console.log(err.response.data.message);
         });
     },
   },

@@ -28,6 +28,9 @@ export default {
     Cart,
   },
   computed: {
+    isLogin() {
+      return this.$store.state.isLogin;
+    },
     products() {
       return this.$store.state.products;
     },
@@ -50,9 +53,7 @@ export default {
   },
   created() {
     this.$store.commit('SET_HOME', false);
-    this.$store.dispatch('fetchCart');
-  },
-  mounted() {
+    if (this.isLogin) this.$store.dispatch('fetchCart');
   },
 };
 </script>

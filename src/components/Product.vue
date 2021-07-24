@@ -30,70 +30,11 @@
           />
         </q-card-section>
 
-        <!-- <q-card-section class="q-mb-sm"> -->
         <div class="q-ma-xs absolute-right">
           <q-btn icon="close" flat round dense v-close-popup to="/shop" />
         </div>
-        <!-- </q-card-section> -->
       </q-card-section>
-
-      <!-- <q-separator />
-
-      <q-card-actions>
-        <q-btn flat round icon="event" />
-        <q-btn flat>
-          5:30PM
-        </q-btn>
-        <q-btn flat>
-          7:00PM
-        </q-btn>
-        <q-btn flat color="primary">
-          Reserve
-        </q-btn>
-      </q-card-actions> -->
     </q-card>
-    <!-- <Cart v-if="showCart"></Cart> -->
-
-    <!-- <q-card class="my-card">
-      <q-card-section class="q-mb-sm">
-        <div class="q-ma-xs absolute-right">
-          <q-btn icon="close" flat round dense v-close-popup to="/shop" />
-        </div>
-      </q-card-section>
-      <q-img :src="product.image_url1" />
-
-      <q-card-section>
-        <q-btn fab color="primary" icon="place" class="absolute" style="top: 0; right: 12px; transform: translateY(-50%);" />
-
-        <div class="row no-wrap items-center">
-          <div class="col text-h6 ellipsis">
-            Cafe Basilico
-          </div>
-          <div class="col-auto text-grey text-caption q-pt-md row no-wrap items-center">
-            <q-icon name="place" />
-            250 ft
-          </div>
-        </div>
-
-        <q-rating v-model="stars" :max="5" size="32px" />
-      </q-card-section>
-
-      <q-card-section class="q-pt-none">
-        <div class="text-subtitle1">
-          $・Italian, Cafe
-        </div>
-        <div class="text-caption text-grey">
-          Small plates, salads & sandwiches in an intimate setting.
-        </div>
-      </q-card-section>
-
-      <q-separator />
-
-      <q-card-actions align="right">
-        <q-btn v-close-popup flat color="primary" label="Reserve" />
-        <q-btn v-close-popup flat color="primary" round icon="event" />
-      </q-card-actions>
-    </q-card> -->
   </q-dialog>
 </template>
 
@@ -128,7 +69,15 @@ export default {
       },
       set(value) {
         this.$store.commit('SET_ROUTE', value);
-      }
+      },
+    },
+    loginCart: {
+      get() {
+        return this.$store.state.loginCart;
+      },
+      set(value) {
+        this.$store.commit('SET_LOGIN_CART', value);
+      },
     },
     // showCart: {
     //   get() {
@@ -146,9 +95,9 @@ export default {
     addToCart(id, path) {
       if (!this.isLogin) {
         this.routeBefore = path;
+        this.loginCart = true;
         this.$router.push('/login');
-      }
-      else {
+      } else {
         this.$store.dispatch('addCart', id);
         this.$router.push('/shop/cart');
       }
