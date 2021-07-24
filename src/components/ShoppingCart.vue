@@ -5,7 +5,7 @@
         <q-card-section horizontal>
           <span class="q-my-sm q-ml-md text-weight-medium text-h5 text-uppercase poppins-font">your cart</span>
           <q-space />
-          <q-btn icon="close" size="lg" flat round dense v-close-popup :to="route" />
+          <q-btn icon="close" size="lg" flat round dense v-close-popup :to="close" />
         </q-card-section>
         <q-separator />
         <q-card-section>
@@ -54,14 +54,11 @@ export default {
       dialog: ref(true),
     };
   },
-  data() {
-    return {};
-  },
   computed: {
     carts() {
       return this.$store.state.carts;
     },
-    route() {
+    close() {
       if (this.$route.path == '/cart') {
         return '/';
       } else {
@@ -88,7 +85,6 @@ export default {
   created() {
     this.$store.dispatch('fetchCart');
   },
-  watch: {},
 };
 </script>
 

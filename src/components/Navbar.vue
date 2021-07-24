@@ -84,10 +84,6 @@ export default {
     isLogin() {
       return this.$store.state.isLogin;
     },
-    // isHome() {
-    //   if (this.$store.state.isHome) return 'home';
-    //   else 'shop';
-    // },
     routeBefore: {
       get() {
         return this.$store.state.routeBefore;
@@ -109,8 +105,6 @@ export default {
     changeTab(home) {
       if (this.tab == 'shop' && !home) {
         this.shop = true;
-        // this.catTab = 'all';
-        // this.changeCategory();
         this.$router.push('/shop');
       } else if (this.tab == 'home' || home) {
         this.shop = false;
@@ -147,7 +141,6 @@ export default {
       localStorage.clear();
       this.$store.commit('SET_IS_LOGIN', false);
       this.$store.commit('SET_CARTS', []);
-      // this.$router.push('/login');
     },
     // ! belum berfungsi
     searchKeyword() {

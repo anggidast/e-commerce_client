@@ -12,8 +12,6 @@
 </template>
 
 <script>
-// @ is an alias to /src
-
 export default {
   name: 'Home',
   computed: {
@@ -22,7 +20,6 @@ export default {
     },
   },
   created() {
-    this.$store.commit('SET_HOME', true);
     if (this.isLogin) this.$store.dispatch('fetchCart');
   },
   mounted() {},

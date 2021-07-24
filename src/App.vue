@@ -13,7 +13,6 @@
 </template>
 
 <script>
-import { ref } from 'vue';
 import Navbar from './components/Navbar.vue';
 
 export default {

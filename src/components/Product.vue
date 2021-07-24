@@ -79,14 +79,6 @@ export default {
         this.$store.commit('SET_LOGIN_CART', value);
       },
     },
-    // showCart: {
-    //   get() {
-    //     return this.$store.state.showCart;
-    //   },
-    //   set(value) {
-    //     this.$store.commit('SHOW_CART', value);
-    //   },
-    // },
     isLogin() {
       return this.$store.state.isLogin;
     },
@@ -103,7 +95,6 @@ export default {
       }
     },
   },
-  created() {},
 };
 </script>
 

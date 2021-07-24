@@ -13,10 +13,8 @@ export default createStore({
     products: [],
     product: {},
     carts: [],
-    showCart: false,
     isLogin: false,
     register: false,
-    isHome: false,
     routeBefore: '',
     loginCart: false,
   },
@@ -43,17 +41,11 @@ export default createStore({
       state.carts = payload;
       state.carts.sort((a, b) => (a['createdAt'] > b['createdAt'] ? -1 : 1));
     },
-    SHOW_CART(state, payload) {
-      state.showCart = payload;
-    },
     SET_IS_LOGIN(state, payload) {
       state.isLogin = payload;
     },
     REGISTER_SUCCESS(state, payload) {
       state.register = payload;
-    },
-    SET_HOME(state, payload) {
-      state.isHome = payload;
     },
     SET_ROUTE(state, payload) {
       state.routeBefore = payload;
