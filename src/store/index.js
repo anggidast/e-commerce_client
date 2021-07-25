@@ -18,6 +18,8 @@ export default createStore({
     register: false,
     routeBefore: '',
     loginCart: false,
+
+    errorMsg: '',
   },
   mutations: {
     SET_PRODUCTS(state, payload) {
@@ -70,6 +72,10 @@ export default createStore({
         else state.products = [];
       }
     },
+
+    SET_ERROR_MSG(state, message) {
+      state.errorMsg = message;
+    },
   },
   actions: {
     fetchData(context) {
@@ -80,8 +86,10 @@ export default createStore({
         .then((result) => {
           console.log(result.data);
           context.commit('SET_PRODUCTS', result.data.data);
+          // context.commit('SET_ERROR_MSG', '');
         })
         .catch((err) => {
+          // context.commit('SET_ERROR_MSG', err.response.data.message);
           console.log(err.response.data.message);
         });
     },
@@ -93,9 +101,11 @@ export default createStore({
         .then((result) => {
           console.log(result);
           context.commit('SET_PRODUCT', result.data.data);
+          // context.commit('SET_ERROR_MSG', '');
           router.push(`/shop/product/${id}`);
         })
         .catch((err) => {
+          // context.commit('SET_ERROR_MSG', err.response.data.message);
           console.log(err.response.data.message);
         });
     },
@@ -112,8 +122,10 @@ export default createStore({
       })
         .then((result) => {
           console.log(result);
+          // context.commit('SET_ERROR_MSG', '');
         })
         .catch((err) => {
+          context.commit('SET_ERROR_MSG', err.response.data.message);
           console.log(err.response.data.message);
         });
     },
@@ -128,6 +140,7 @@ export default createStore({
         .then((result) => {
           console.log(result);
           context.commit('SET_CARTS', result.data.data);
+          // context.commit('SET_ERROR_MSG', '');
         })
         .catch((err) => {
           console.log(err.response.data.message);
@@ -147,8 +160,10 @@ export default createStore({
         .then((result) => {
           console.log(result);
           context.dispatch('fetchCart');
+          // context.commit('SET_ERROR_MSG', '');
         })
         .catch((err) => {
+          // context.commit('SET_ERROR_MSG', err.response.data.message);
           console.log(err.response.data.message);
         });
     },
@@ -164,8 +179,10 @@ export default createStore({
         .then((result) => {
           console.log(result);
           context.dispatch('fetchCart');
+          // context.commit('SET_ERROR_MSG', '');
         })
         .catch((err) => {
+          // context.commit('SET_ERROR_MSG', err.response.data.message);
           console.log(err.response.data.message);
         });
     },
@@ -181,10 +198,12 @@ export default createStore({
         .then((result) => {
           console.log(result);
           context.commit('SET_IS_LOGIN', true);
+          context.commit('SET_ERROR_MSG', '');
           localStorage.setItem('access_token', result.data.access_token);
           router.push(context.state.routeBefore);
         })
         .catch((err) => {
+          context.commit('SET_ERROR_MSG', err.response.data.message);
           console.log(err.response.data.message);
         });
     },
@@ -200,9 +219,11 @@ export default createStore({
         .then((result) => {
           console.log(result);
           context.commit('REGISTER_SUCCESS', true);
+          context.commit('SET_ERROR_MSG', '');
           router.push('/login');
         })
         .catch((err) => {
+          context.commit('SET_ERROR_MSG', err.response.data.message);
           console.log(err.response.data.message);
         });
     },

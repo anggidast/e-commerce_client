@@ -141,6 +141,7 @@ export default {
       localStorage.clear();
       this.$store.commit('SET_IS_LOGIN', false);
       this.$store.commit('SET_CARTS', []);
+      this.$store.commit('REGISTER_SUCCESS', false);
     },
     searchKeyword() {
       this.tab = 'shop';

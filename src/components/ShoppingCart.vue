@@ -16,6 +16,7 @@
                 <span class="text-h6 q-mb-xs">{{ cart.Product.name }}</span>
                 <span>Rp. {{ cart.Product.price }}</span>
                 <q-space />
+                <span class="text-caption text-grey-7">Stock: {{ cart.Product.stock }}</span>
                 <div style="max-width: 60px">
                   <q-input
                     type="number"
