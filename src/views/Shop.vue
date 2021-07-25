@@ -35,6 +35,7 @@ export default {
     },
   },
   created() {
+    // this.$store.dispatch('fetchData')
     if (this.isLogin) this.$store.dispatch('fetchCart');
   },
 };

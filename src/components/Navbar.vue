@@ -29,7 +29,7 @@
       </q-toolbar>
 
       <div v-if="search" class="q-mx-auto q-pt-xs q-pb-sm" style="max-width: 350px">
-        <q-input @keyup="searchKeyword" square outlined v-model="keyword" label="Search" dense>
+        <q-input @keyup="searchKeyword" square outlined v-model="keyword" label="Search" dense :autofocus="true">
           <template v-slot:append>
             <q-icon name="close" @click="(text = ''), (search = !search)" class="cursor-pointer" />
           </template>
@@ -142,19 +142,11 @@ export default {
       this.$store.commit('SET_IS_LOGIN', false);
       this.$store.commit('SET_CARTS', []);
     },
-    // ! belum berfungsi
     searchKeyword() {
-      console.log(this.keyword);
-      // for (i = 0; i < li.length; i++) {
-      //   a = li[i].getElementsByTagName("a")[0];
-      //   txtValue = a.textContent || a.innerText;
-      //   if (txtValue.toUpperCase().indexOf(filter) > -1) {
-      //     li[i].style.display = "";
-      //   } else {
-      //     li[i].style.display = "none";
-      //   }
-      // }
-      // this.$store.commit('KEYWORD_FILTER', this.keyword);
+      this.tab = 'shop';
+      this.shop = true;
+      this.$router.push('/shop');
+      this.$store.commit('KEYWORD_FILTER', this.keyword);
     },
   },
   created() {

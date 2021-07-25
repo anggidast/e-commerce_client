@@ -11,6 +11,7 @@ export default createStore({
   state: {
     allProducts: [],
     products: [],
+    categorizedProducts: [],
     product: {},
     carts: [],
     isLogin: false,
@@ -23,6 +24,7 @@ export default createStore({
       state.allProducts = payload;
       state.allProducts.sort((a, b) => (a['createdAt'] > b['createdAt'] ? -1 : 1));
       state.products = state.allProducts;
+      state.categorizedProducts = state.products;
     },
     FILTER_PRODUCTS(state, category) {
       state.products = state.allProducts;
@@ -33,6 +35,7 @@ export default createStore({
           state.products = state.products.filter((el) => el.category == category);
         }
       }
+      state.categorizedProducts = state.products;
     },
     SET_PRODUCT(state, payload) {
       state.product = payload;
@@ -53,18 +56,20 @@ export default createStore({
     SET_LOGIN_CART(state, payload) {
       state.loginCart = payload;
     },
-    // ! belum berfungsi
-    // KEYWORD_FILTER(state, keyword) {
-    //   console.log(keyword);
-    //   state.products = state.categorizedProducts;
-    //     let filteredProducts = []
-    //     state.products.forEach((el) => {
-    //       let index = el.name.toLowerCase().indexOf(keyword)
-    //       console.log(index);
-    //       if(index != -1) filteredProducts.push(state.products[index])
-    //     });
-    //     if(filteredProducts.length > 0) state.products = filteredProducts
-    // },
+    KEYWORD_FILTER(state, keyword) {
+      state.products = state.categorizedProducts;
+      if (keyword && keyword != ' ') {
+        let filteredProducts = [];
+        state.products.forEach((el, i) => {
+          let index = el.name.toLowerCase().indexOf(keyword);
+          if (index != -1) {
+            filteredProducts.push(state.products[i]);
+          }
+        });
+        if (filteredProducts.length > 0) state.products = filteredProducts;
+        else state.products = [];
+      }
+    },
   },
   actions: {
     fetchData(context) {
