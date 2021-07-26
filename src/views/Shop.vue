@@ -1,17 +1,9 @@
 <template>
   <div id="shop">
-    <div class="q-pa-md">
-      <span class="text-grey-8">Sort by:</span>
-      <div row class="mt-1 mb-4 q-gutter-md">
-          <q-btn class="text-lowercase" size="md" padding="none" dense :ripple="false" flat color="grey-7" @click="sortBy('name')" label="name">
-          </q-btn>
-          <q-btn class="text-lowercase" size="md" padding="none" dense :ripple="false" flat color="grey-7" @click="sortBy('category')" label="category">
-          </q-btn>
-          <q-btn class="text-lowercase" size="md" padding="none" dense :ripple="false" flat color="grey-7" @click="sortBy('price')" label="price">
-          </q-btn>
-          <q-btn class="text-lowercase" size="md" padding="none" dense :ripple="false" flat color="grey-7" @click="sortBy('stock')" label="stock">
-          </q-btn>
-        </div>
+    <div class="q-pa-xs q-my-xs q-mx-auto" style="max-width: 300px">
+      <div>
+        <q-select clearable v-model="model" :options="options" label="Sorting by:" />
+      </div>
     </div>
 
     <div class="q-pa-md row items-start justify-center q-gutter-md">
@@ -28,12 +20,20 @@
 </template>
 
 <script>
+import { ref } from 'vue';
 import Cart from '../components/ShoppingCart.vue';
 
 export default {
   name: 'Shop',
   components: {
     Cart,
+  },
+  setup() {
+    return {
+      model: ref(null),
+      options: ['name', 'price'],
+      desc: ref(false),
+    };
   },
   computed: {
     isLogin() {
@@ -49,11 +49,16 @@ export default {
     },
     sortBy(prop) {
       console.log(prop);
-      // this.desc = !this.desc;
-      // if (!this.desc)
-      //   this.products.sort((a, b) => (a[prop] < b[prop] ? -1 : 1));
-      // else this.products.sort((a, b) => (a[prop] > b[prop] ? -1 : 1));
-    }
+      if (prop) this.products.sort((a, b) => (a[prop] < b[prop] ? -1 : 1));
+      else this.products.sort((a, b) => (a['createdAt'] > b['createdAt'] ? -1 : 1));
+    },
+  },
+  watch: {
+    model: {
+      handler: function(newValue, oldValue) {
+        this.sortBy(newValue);
+      },
+    },
   },
   created() {
     // this.$store.dispatch('fetchData')
