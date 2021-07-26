@@ -3,7 +3,7 @@
     <q-header class="q-py-xs text-dark bg-white">
       <q-toolbar>
         <div class="q-pa-md q-gutter-sm absolute-left">
-          <q-btn dense :ripple="false" flat round class="text-dark" icon="search" @click="(keyword = ''), (search = !search)" :color="color.search" />
+          <q-btn dense :ripple="false" flat round class="text-dark" icon="search" @click="searchButton($route.path)" :color="color.search" />
         </div>
         <q-toolbar-title
           class="q-mt-sm q-pb-xs text-h4 text-center text-grey-8 poppins-font cursor-pointer"
@@ -31,7 +31,7 @@
       <div v-if="search" class="q-mx-auto q-pt-xs q-pb-sm" style="max-width: 350px">
         <q-input @keyup="searchKeyword" square outlined v-model="keyword" label="Search" dense :autofocus="true">
           <template v-slot:append>
-            <q-icon name="close" @click="(text = ''), (search = !search)" class="cursor-pointer" />
+            <q-icon name="close" @click="closeSearch" class="cursor-pointer" />
           </template>
         </q-input>
       </div>
@@ -107,6 +107,7 @@ export default {
         this.shop = true;
         this.$router.push('/shop');
       } else if (this.tab == 'home' || home) {
+        this.tab = 'home';
         this.shop = false;
         this.$router.push('/');
       }
@@ -145,9 +146,22 @@ export default {
     },
     searchKeyword() {
       this.tab = 'shop';
-      this.shop = true;
-      this.$router.push('/shop');
+      this.changeTab();
       this.$store.commit('KEYWORD_FILTER', this.keyword);
+    },
+    searchButton(path) {
+      this.keyword = '';
+      this.search = !this.search;
+      this.routeBefore = path;
+    },
+    closeSearch() {
+      this.text = '';
+      this.search = !this.search;
+      this.keyword = '';
+      this.searchKeyword();
+      if (this.routeBefore == '/') this.changeTab('home');
+      else this.$router.push(this.routeBefore);
+      this.routeBefore = '';
     },
   },
   created() {
