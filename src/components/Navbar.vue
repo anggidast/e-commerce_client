@@ -170,6 +170,14 @@ export default {
   },
 
   watch: {
+    $route: {
+      handler: function(newValue, oldValue) {
+        if (newValue.path == '/shop') {
+          this.shop = true;
+          // this.loginCart = false;
+        }
+      },
+    },
     shopBanner: {
       handler: function(newValue, oldValue) {
         if (newValue.value == true) {

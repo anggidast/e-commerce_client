@@ -8,7 +8,7 @@
       </div>
     </q-img>
 
-    <div class="text-center q-mt-md text-h4 text-grey-9">Latest From dast.co</div>
+    <div class="text-center q-mt-md text-h5 text-grey-9">Latest From dast.co</div>
     <div class="q-pa-md row items-start justify-center q-gutter-md">
       <q-card flat bordered v-for="product in products" :key="product" class="my-card">
         <q-img :src="product.image_url1" class="cursor-pointer" @click="openProduct(product.id)"></q-img>
