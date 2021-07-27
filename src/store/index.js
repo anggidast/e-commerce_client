@@ -19,7 +19,7 @@ export default createStore({
     routeBefore: '',
     loginCart: false,
 
-    shopBanner: false,
+    shopBanner: {},
 
     errorMsg: '',
   },
@@ -76,7 +76,7 @@ export default createStore({
     },
 
     SHOP_BANNER(state, payload) {
-      state.shopBanner = payload
+      state.shopBanner = payload;
     },
 
     SET_ERROR_MSG(state, message) {
@@ -99,16 +99,18 @@ export default createStore({
           console.log(err.response.data.message);
         });
     },
-    getProduct(context, id) {
+    getProduct(context, payload) {
       axios({
         method: 'GET',
-        url: '/products/' + id,
+        url: '/products/' + payload.id,
       })
         .then((result) => {
           console.log(result);
           context.commit('SET_PRODUCT', result.data.data);
           // context.commit('SET_ERROR_MSG', '');
-          router.push(`/shop/product/${id}`);
+          if (payload.path == '/shop') {
+            router.push(`/shop/product/${payload.id}`);
+          } else router.push(`/product/${payload.id}`);
         })
         .catch((err) => {
           // context.commit('SET_ERROR_MSG', err.response.data.message);
@@ -243,10 +245,8 @@ export default createStore({
       return image_urls;
     },
     newest(state) {
-      return state.products
-        .sort((a, b) => (a["createdAt"] > b["createdAt"] ? -1 : 1))
-        .slice(0, 5);
-    }
+      return state.products.sort((a, b) => (a['createdAt'] > b['createdAt'] ? -1 : 1)).slice(0, 5);
+    },
   },
   modules: {},
 });

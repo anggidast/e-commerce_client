@@ -3,17 +3,9 @@
     <q-card square flat class="row justify-center">
       <q-banner v-if="registerSuccess" style="width: 400px" class="text-white bg-green row justify-center">
         Sing up completed. You can sign in now
-        <!-- <template v-slot:action> -->
-        <!-- <q-btn on flat color="white" icon="close" dense /> -->
-        <!-- </template> -->
       </q-banner>
 
-      <q-banner v-if="errorMsg" style="width: 400px" class="text-white bg-red row justify-center">
-        {{ errorMsg }}!
-        <!-- <template v-slot:action> -->
-        <!-- <q-btn on flat color="white" icon="close" dense /> -->
-        <!-- </template> -->
-      </q-banner>
+      <q-banner v-if="errorMsg" style="width: 400px" class="text-white bg-red row justify-center"> {{ errorMsg }}! </q-banner>
     </q-card>
     <q-card square flat style="width: 400px" class="absolute-center text-grey-9">
       <q-card-section horizontal>
@@ -84,6 +76,9 @@ export default {
         password: this.password,
       });
     },
+  },
+  created() {
+    window.scrollTo(0, 0);
   },
   unmounted() {
     if (this.$route.path != '/register') this.loginCart = false;

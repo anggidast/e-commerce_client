@@ -18,6 +18,11 @@ const routes = [
         component: Cart,
         meta: { requiresAuth: true },
       },
+      {
+        path: 'product/:id',
+        name: 'Latest',
+        component: Product,
+      },
     ],
   },
   {
@@ -51,6 +56,10 @@ const routes = [
     path: '/register',
     name: 'RegisterPage',
     component: RegisterPage,
+    beforeEnter: (to, from, next) => {
+      if (localStorage.access_token) next('/');
+      else next();
+    },
   },
 ];
 

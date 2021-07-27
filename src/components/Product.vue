@@ -91,7 +91,9 @@ export default {
         this.$router.push('/login');
       } else {
         this.$store.dispatch('addCart', id);
-        this.$router.push('/shop/cart');
+        if (this.$route.path == `/product/${id}`) {
+          this.$router.push('/cart');
+        } else this.$router.push('/shop/cart');
       }
     },
   },

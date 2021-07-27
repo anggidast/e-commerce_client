@@ -69,6 +69,9 @@ export default {
         });
     },
   },
+  created() {
+    window.scrollTo(0, 0);
+  },
   unmounted() {
     if (this.$route.path != '/login') this.loginCart = false;
     this.$store.commit('SET_ERROR_MSG', '');

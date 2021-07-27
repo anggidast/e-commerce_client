@@ -45,7 +45,10 @@ export default {
   },
   methods: {
     openProduct(id) {
-      this.$store.dispatch('getProduct', id);
+      this.$store.dispatch('getProduct', {
+        id: id,
+        path: this.$route.path,
+      });
     },
     sortBy(prop) {
       console.log(prop);
@@ -63,6 +66,7 @@ export default {
   created() {
     // this.$store.dispatch('fetchData')
     if (this.isLogin) this.$store.dispatch('fetchCart');
+    window.scrollTo(0, 0);
   },
 };
 </script>

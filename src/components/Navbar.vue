@@ -5,13 +5,9 @@
         <div class="q-pa-md q-gutter-sm absolute-left">
           <q-btn dense :ripple="false" flat round class="text-dark" icon="search" @click="searchButton($route.path)" :color="color.search" />
         </div>
-        <q-toolbar-title
-          class="q-mt-sm q-pb-xs text-h4 text-center text-grey-8 poppins-font"
-          @click="(tab = 'home'), changeTab('home')"
-          >
+        <q-toolbar-title class="q-mt-sm q-pb-xs text-h4 text-center text-grey-8 poppins-font" @click="(tab = 'home'), changeTab('home')">
           <span class="cursor-pointer" @click="(tab = 'home'), changeTab('home')">
-            <span class="text-weight-medium">dast</span
-            ><span class="text-weight-bold text-red">.</span><span class="text-weight-light">co</span>
+            <span class="text-weight-medium">dast</span><span class="text-weight-bold text-red">.</span><span class="text-weight-light">co</span>
           </span>
         </q-toolbar-title>
 
@@ -105,8 +101,9 @@ export default {
     },
     shopBanner() {
       return this.$store.state.shopBanner;
-    }
+    },
   },
+
   methods: {
     changeTab(home) {
       if (this.tab == 'shop' && !home) {
@@ -117,6 +114,7 @@ export default {
         this.shop = false;
         this.$router.push('/');
       }
+      window.scrollTo(0, 0);
     },
     changeCategory() {
       this.categories.forEach((cat) => {
@@ -170,15 +168,21 @@ export default {
       this.routeBefore = '';
     },
   },
+
   watch: {
     shopBanner: {
       handler: function(newValue, oldValue) {
-        if (newValue == true) {
+        if (newValue.value == true) {
           this.tab = 'shop';
-          this.catTab = 'Shirts'
+          if (newValue.category) {
+            this.catTab = newValue.category;
+            this.changeCategory();
+          } else {
+            this.catTab = 'all';
+            this.changeCategory();
+          }
           this.changeTab();
-          this.changeCategory();
-          this.$store.commit('SHOP_BANNER', false)
+          this.$store.commit('SHOP_BANNER', false);
         }
       },
     },
