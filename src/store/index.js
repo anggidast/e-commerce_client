@@ -19,6 +19,8 @@ export default createStore({
     routeBefore: '',
     loginCart: false,
 
+    shopBanner: false,
+
     errorMsg: '',
   },
   mutations: {
@@ -71,6 +73,10 @@ export default createStore({
         if (filteredProducts.length > 0) state.products = filteredProducts;
         else state.products = [];
       }
+    },
+
+    SHOP_BANNER(state, payload) {
+      state.shopBanner = payload
     },
 
     SET_ERROR_MSG(state, message) {
@@ -236,6 +242,11 @@ export default createStore({
       }
       return image_urls;
     },
+    newest(state) {
+      return state.products
+        .sort((a, b) => (a["createdAt"] > b["createdAt"] ? -1 : 1))
+        .slice(0, 5);
+    }
   },
   modules: {},
 });

@@ -7,22 +7,46 @@
         <q-btn outline color="white" label="shop now" @click="shopShirts" />
       </div>
     </q-img>
+
+    <div class="q-pa-md row items-start justify-center q-gutter-md">
+      <q-card flat bordered v-for="product in products" :key="product" class="my-card">
+        <q-img :src="product.image_url1" class="cursor-pointer" @click="openProduct(product.id)"></q-img>
+        <q-card-section>
+          <div class="text-h6 cursor-pointer" @click="openProduct(product.id)">{{ product.name }}</div>
+          <div class="text-subtitle2">Rp. {{ product.price }}</div>
+        </q-card-section>
+      </q-card>
+    </div>
+
     <router-view></router-view>
   </div>
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
   name: 'Home',
+  setup () {
+    return {
+      slide: ref(1)
+    }
+  },
   methods: {
     shopShirts() {
-      console.log('shop');
-      // this.$router.push('/shop');
-    }
+      this.$store.commit('SHOP_BANNER', true)
+      this.$router.push('/shop');
+    },
+    openProduct(id) {
+      this.$store.dispatch('getProduct', id);
+    },
   },
   computed: {
     isLogin() {
       return this.$store.state.isLogin;
+    },
+    products() {
+      return this.$store.getters.newest;
     },
   },
   created() {
@@ -32,4 +56,9 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped>
+.my-card {
+  width: 100%;
+  max-width: 250px;
+}
+</style>

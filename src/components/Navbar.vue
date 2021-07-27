@@ -103,6 +103,9 @@ export default {
         this.$store.commit('SET_LOGIN_CART', value);
       },
     },
+    shopBanner() {
+      return this.$store.state.shopBanner;
+    }
   },
   methods: {
     changeTab(home) {
@@ -165,6 +168,19 @@ export default {
       if (this.routeBefore == '/') this.changeTab('home');
       else this.$router.push(this.routeBefore);
       this.routeBefore = '';
+    },
+  },
+  watch: {
+    shopBanner: {
+      handler: function(newValue, oldValue) {
+        if (newValue == true) {
+          this.tab = 'shop';
+          this.catTab = 'Shirts'
+          this.changeTab();
+          this.changeCategory();
+          this.$store.commit('SHOP_BANNER', false)
+        }
+      },
     },
   },
   created() {
