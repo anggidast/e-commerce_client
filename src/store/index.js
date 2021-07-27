@@ -3,8 +3,8 @@ import Axios from 'axios';
 import router from '../router';
 
 const axios = Axios.create({
-  // baseURL: 'https://dast-ecommerce.herokuapp.com',
-  baseURL: 'http://localhost:3000',
+  baseURL: 'https://dast-ecommerce.herokuapp.com',
+  // baseURL: 'http://localhost:3000',
 });
 
 export default createStore({

@@ -1,24 +1,27 @@
 <template>
   <div class="nunito-font">
-    <q-layout view="lHh lpr lFf">
+    <q-layout view="lHh lpr fff">
       <Navbar></Navbar>
 
       <q-page-container>
-        <q-page>
+        <q-page class="q-mb-md">
           <router-view></router-view>
         </q-page>
       </q-page-container>
+
+      <Footer></Footer>
     </q-layout>
   </div>
 </template>
 
 <script>
 import Navbar from './components/Navbar.vue';
+import Footer from './components/Footer.vue';
 
 export default {
   name: 'App',
   components: {
-    Navbar,
+    Navbar, Footer
   },
   created() {
     this.$store.dispatch('fetchData');

@@ -6,11 +6,14 @@
           <q-btn dense :ripple="false" flat round class="text-dark" icon="search" @click="searchButton($route.path)" :color="color.search" />
         </div>
         <q-toolbar-title
-          class="q-mt-sm q-pb-xs text-h4 text-center text-grey-8 poppins-font cursor-pointer"
+          class="q-mt-sm q-pb-xs text-h4 text-center text-grey-8 poppins-font"
           @click="(tab = 'home'), changeTab('home')"
-          ><span class="text-weight-bold text-red">.</span><span class="text-weight-medium">dast</span
-          ><span class="text-weight-light">inguished</span></q-toolbar-title
-        >
+          >
+          <span class="cursor-pointer" @click="(tab = 'home'), changeTab('home')">
+            <span class="text-weight-medium">dast</span
+            ><span class="text-weight-bold text-red">.</span><span class="text-weight-light">co</span>
+          </span>
+        </q-toolbar-title>
 
         <div class="q-pa-md q-gutter-sm absolute-right">
           <q-btn dense :ripple="false" flat round class="text-dark" icon="person_outline" @click="login($route.path)" :color="color.person">

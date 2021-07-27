@@ -19,7 +19,7 @@
               <q-icon :name="isPwd ? 'visibility_off' : 'visibility'" class="cursor-pointer" @click="isPwd = !isPwd" />
             </template>
           </q-input>
-          <q-btn type="submit" square class="full-width" color="black" size="md" label="sign up" />
+          <q-btn type="submit" square class="full-width" color="dark" size="md" label="sign up" />
         </q-form>
       </q-card-section>
       <q-card-section horizontal>
