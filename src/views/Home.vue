@@ -10,11 +10,11 @@
 
     <div class="text-center q-mt-md text-h5 text-grey-9">Latest From dast.co</div>
     <div class="q-pa-md row items-start justify-center q-gutter-md">
-      <q-card flat bordered v-for="product in products" :key="product" class="my-card">
-        <q-img :src="product.image_url1" class="cursor-pointer" @click="openProduct(product.id)"></q-img>
+      <q-card square flat bordered v-for="product in products" :key="product" class="my-card">
+        <q-img :src="product.image_url1" class="cursor-pointer full-width" @click="openProduct(product.id)"></q-img>
         <q-card-section>
           <div class="text-h6 cursor-pointer" @click="openProduct(product.id)">{{ product.name }}</div>
-          <div class="text-subtitle2">Rp. {{ product.price }}</div>
+          <div class="text-subtitle2">Rp. {{ product.price.toLocaleString("id-ID") }}</div>
         </q-card-section>
       </q-card>
     </div>
@@ -43,10 +43,10 @@
 </template>
 
 <script>
-import { ref } from 'vue';
+import { ref } from "vue";
 
 export default {
-  name: 'Home',
+  name: "Home",
   setup() {
     return {
       slide: ref(1),
@@ -54,20 +54,21 @@ export default {
   },
   methods: {
     shopNow() {
-      this.$store.commit('SHOP_BANNER', {
+      this.$store.commit("SHOP_BANNER", {
         value: true,
       });
-      this.$router.push('/shop');
+      this.$router.push("/shop");
     },
     shopShirts() {
-      this.$store.commit('SHOP_BANNER', {
+      this.$store.commit("SHOP_BANNER", {
         value: true,
-        category: 'Shirts',
+        category: "Shirts",
       });
-      this.$router.push('/shop');
+      this.$router.push("/shop");
     },
     openProduct(id) {
-      this.$store.dispatch('getProduct', {
+      this.routeBefore = this.$route.path;
+      this.$store.dispatch("getProduct", {
         id: id,
         path: this.$route.path,
       });
@@ -80,9 +81,17 @@ export default {
     products() {
       return this.$store.getters.newest;
     },
+    routeBefore: {
+      get() {
+        return this.$store.state.routeBefore;
+      },
+      set(value) {
+        this.$store.commit("SET_ROUTE", value);
+      },
+    },
   },
   created() {
-    if (this.isLogin) this.$store.dispatch('fetchCart');
+    if (this.isLogin) this.$store.dispatch("fetchCart");
   },
   mounted() {},
 };
@@ -91,6 +100,6 @@ export default {
 <style scoped>
 .my-card {
   width: 100%;
-  max-width: 250px;
+  max-width: 249px;
 }
 </style>
