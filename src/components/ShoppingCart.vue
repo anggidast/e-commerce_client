@@ -1,6 +1,6 @@
 <template>
   <div>
-    <q-dialog v-model="dialog" persistent position="right" class="text-grey-9">
+    <q-dialog v-model="dialog" position="right" class="text-grey-9">
       <q-card square class="full-height" style="width: 500px">
         <q-card-section horizontal>
           <span class="q-my-sm q-ml-md text-weight-medium text-h5 text-uppercase poppins-font">your cart</span>
@@ -10,7 +10,7 @@
 
         <q-separator />
 
-        <q-card-section style="height: 80vh" class="scroll">
+        <q-card-section style="max-height: 82%" class="scroll">
           <q-card v-for="cart in carts" :key="cart.id" flat square style="height: 150px" class="full-width q-mb-lg">
             <q-card-section horizontal class="no-margin no-padding">
               <q-img class="q-mr-lg" style="max-width: 100px" :src="cart.Product.image_url1" />
@@ -45,14 +45,13 @@
 
         <q-separator />
 
-        <q-card-actions align="right">
+        <q-card-actions class="" align="right">
           <span class="q-my-xs q-ml-md text-subtitle1"
             >Subtotal:<span v-if="subTotal.price" class="text-weight-medium"> Rp. {{ subTotal.price.toLocaleString("id-ID") }}</span></span
           >
           <q-space />
           <q-btn v-if="subTotal.price" dense color="dark" class="q-mr-md" :label="`checkout (${carts.length})`" />
         </q-card-actions>
-        <q-separator />
       </q-card>
     </q-dialog>
   </div>
@@ -103,6 +102,14 @@ export default {
   created() {
     this.$store.dispatch("fetchCart");
   },
+  updated() {
+    const closeCart = this.$route.path.slice(-this.$route.path.length, -5);
+    if (!closeCart) {
+      this.$router.push('/');
+    } else {
+      this.$router.push(closeCart);
+    }
+  }
 };
 </script>
 
