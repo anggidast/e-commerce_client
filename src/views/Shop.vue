@@ -6,36 +6,50 @@
       </div>
     </div>
 
-    <div class="q-pa-md row items-start justify-center q-gutter-md">
-      <q-card square flat bordered v-for="product in products" :key="product" class="my-card">
-        <q-img :src="product.image_url1" class="cursor-pointer" @click="openProduct(product.id)"></q-img>
-        <q-card-section>
-          <div class="text-h6 cursor-pointer" @click="openProduct(product.id)">{{ product.name }}</div>
-          <div class="text-subtitle2">Rp. {{ product.price.toLocaleString("id-ID") }}</div>
-        </q-card-section>
-      </q-card>
+    <div v-if="loading">
+      <div class="q-pa-md row items-start justify-center q-gutter-md">
+        <q-card square flat bordered v-for="(product, i) in 10" :key="i" class="my-card">
+          <q-skeleton height="70vh" rect />
+        </q-card>
+      </div>
     </div>
+
+    <div v-else>
+      <div class="q-pa-md row items-start justify-center q-gutter-md">
+        <q-card square flat bordered v-for="product in products" :key="product" class="my-card">
+          <q-img :src="product.image_url1" class="cursor-pointer" @click="openProduct(product.id)"></q-img>
+          <q-card-section>
+            <div class="text-h6 cursor-pointer" @click="openProduct(product.id)">{{ product.name }}</div>
+            <div class="text-subtitle2">Rp. {{ product.price.toLocaleString('id-ID') }}</div>
+          </q-card-section>
+        </q-card>
+      </div>
+    </div>
+
     <router-view></router-view>
   </div>
 </template>
 
 <script>
-import { ref } from "vue";
-import Cart from "../components/ShoppingCart.vue";
+import { ref } from 'vue';
+import Cart from '../components/ShoppingCart.vue';
 
 export default {
-  name: "Shop",
+  name: 'Shop',
   components: {
     Cart,
   },
   setup() {
     return {
       model: ref(null),
-      options: ["name", "price"],
+      options: ['name', 'price'],
       desc: ref(false),
     };
   },
   computed: {
+    loading() {
+      return this.$store.state.loading;
+    },
     isLogin() {
       return this.$store.state.isLogin;
     },
@@ -47,14 +61,14 @@ export default {
         return this.$store.state.routeBefore;
       },
       set(value) {
-        this.$store.commit("SET_ROUTE", value);
+        this.$store.commit('SET_ROUTE', value);
       },
     },
   },
   methods: {
     openProduct(id) {
       this.routeBefore = this.$route.path;
-      this.$store.dispatch("getProduct", {
+      this.$store.dispatch('getProduct', {
         id: id,
         path: this.$route.path,
       });
@@ -62,7 +76,7 @@ export default {
     sortBy(prop) {
       console.log(prop);
       if (prop) this.products.sort((a, b) => (a[prop] < b[prop] ? -1 : 1));
-      else this.products.sort((a, b) => (a["createdAt"] > b["createdAt"] ? -1 : 1));
+      else this.products.sort((a, b) => (a['createdAt'] > b['createdAt'] ? -1 : 1));
     },
   },
   watch: {
@@ -74,7 +88,7 @@ export default {
   },
   created() {
     // this.$store.dispatch('fetchData')
-    if (this.isLogin) this.$store.dispatch("fetchCart");
+    if (this.isLogin) this.$store.dispatch('fetchCart');
     window.scrollTo(0, 0);
   },
 };
