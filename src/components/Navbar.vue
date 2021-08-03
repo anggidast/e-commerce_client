@@ -3,8 +3,40 @@
     <q-header class="q-py-xs text-dark bg-white">
       <q-toolbar>
         <div class="q-pa-md q-gutter-sm absolute-left">
+          <q-btn v-if="shop" class="mobile-only" dense :ripple="false" flat @click="drawer = !drawer" round icon="menu" />
           <q-btn dense :ripple="false" flat round class="text-dark" icon="search" @click="searchButton($route.path)" :color="color.search" />
         </div>
+
+        <!-- drawer -->
+        <q-drawer v-model="drawer" :width="200" overlay bordered horizontal class="text-dark bg-white column justify-between">
+          <div>
+            <q-list class="text-uppercase">
+              <q-item>
+                <q-item-section class="text-weight-bold text-subtitle1">
+                  select category
+                </q-item-section>
+              </q-item>
+              <q-separator />
+              <template v-for="(menu, index) in categories" :key="index">
+                <q-item clickable v-ripple>
+                  <q-item-section>
+                    {{ menu }}
+                  </q-item-section>
+                </q-item>
+              </template>
+            </q-list>
+          </div>
+          <q-space />
+          <div>
+            <q-separator />
+            <q-item clickable v-ripple>
+              <q-item-section class="text-weight-bold text-uppercase text-subtitle1">
+                sign out
+              </q-item-section>
+            </q-item>
+          </div>
+        </q-drawer>
+
         <q-toolbar-title class="q-mt-sm q-pb-xs text-h4 text-center text-grey-8 poppins-font" @click="(tab = 'home'), changeTab('home')">
           <span class="cursor-pointer" @click="(tab = 'home'), changeTab('home')">
             <span class="text-weight-medium">dast</span><span class="text-weight-bold text-red">.</span><span class="text-weight-light">co</span>
@@ -40,7 +72,7 @@
         <q-tab :ripple="false" class="letter-space q-mx-sm q-mt-xs" name="shop" label="shop" />
       </q-tabs>
 
-      <div v-if="shop && !loginCart" class="bg-white">
+      <div v-if="shop && !loginCart" class="bg-white desktop-only">
         <q-tabs dense class="q-mb-xs" v-model="catTab" @click="changeCategory">
           <q-tab v-for="(cat, i) in categories" :key="i" :ripple="false" class="letter-space q-mx-xs cursor-pointer" :name="cat" :label="cat" />
         </q-tabs>
@@ -52,6 +84,45 @@
 <script>
 import { ref } from 'vue';
 
+const menuList = [
+  {
+    icon: 'inbox',
+    label: 'Inbox',
+    separator: true,
+  },
+  {
+    icon: 'send',
+    label: 'Outbox',
+    separator: false,
+  },
+  {
+    icon: 'delete',
+    label: 'Trash',
+    separator: false,
+  },
+  {
+    icon: 'error',
+    label: 'Spam',
+    separator: true,
+  },
+  {
+    icon: 'settings',
+    label: 'Settings',
+    separator: false,
+  },
+  {
+    icon: 'feedback',
+    label: 'Send Feedback',
+    separator: false,
+  },
+  {
+    icon: 'help',
+    iconColor: 'primary',
+    label: 'Help',
+    separator: false,
+  },
+];
+
 export default {
   name: 'Navbar',
 
@@ -60,6 +131,8 @@ export default {
       tab: ref('home'),
       catTab: ref('all'),
       keyword: ref(''),
+      drawer: ref(true),
+      menuList,
     };
   },
 

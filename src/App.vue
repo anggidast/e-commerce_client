@@ -1,6 +1,6 @@
 <template>
   <div class="nunito-font">
-    <q-layout view="lHh lpr fff">
+    <q-layout view="hHh lpr fff">
       <Navbar></Navbar>
 
       <q-page-container>
@@ -21,7 +21,8 @@ import Footer from './components/Footer.vue';
 export default {
   name: 'App',
   components: {
-    Navbar, Footer
+    Navbar,
+    Footer,
   },
   created() {
     this.$store.dispatch('fetchData');
