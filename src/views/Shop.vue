@@ -8,19 +8,32 @@
 
     <div v-if="loading">
       <div class="q-pa-md row items-start justify-center q-gutter-md">
-        <q-card square flat bordered v-for="(product, i) in 10" :key="i" class="my-card">
+        <q-card square flat bordered v-for="(product, i) in 10" :key="i" class="my-card desktop-only">
           <q-skeleton height="70vh" rect />
+        </q-card>
+        <q-card square flat bordered v-for="(product, i) in 10" :key="i" class="my-card-mobile mobile-only">
+          <q-skeleton height="40vh" rect />
         </q-card>
       </div>
     </div>
 
     <div v-else>
-      <div class="q-pa-md row items-start justify-center q-gutter-md">
+      <div class="q-pa-md row items-start justify-center q-gutter-md desktop-only">
         <q-card square flat bordered v-for="product in products" :key="product" class="my-card">
           <q-img :src="product.image_url1" class="cursor-pointer" @click="openProduct(product.id)"></q-img>
           <q-card-section>
             <div class="text-h6 cursor-pointer" @click="openProduct(product.id)">{{ product.name }}</div>
             <div class="text-subtitle2">Rp. {{ product.price.toLocaleString('id-ID') }}</div>
+          </q-card-section>
+        </q-card>
+      </div>
+
+      <div class="q-py-md q-px-sm row justify-center q-gutter-sm mobile-only">
+        <q-card square flat bordered v-for="product in products" :key="product" class="my-card-mobile">
+          <q-img :src="product.image_url1" class="cursor-pointer" @click="openProduct(product.id)"></q-img>
+          <q-card-section class="q-pa-sm">
+            <div class="text-subtitle2 cursor-pointer" @click="openProduct(product.id)">{{ product.name }}</div>
+            <div class="text-caption">Rp. {{ product.price.toLocaleString('id-ID') }}</div>
           </q-card-section>
         </q-card>
       </div>
@@ -87,7 +100,7 @@ export default {
     },
   },
   created() {
-    // this.$store.dispatch('fetchData')
+    this.$store.dispatch('fetchData');
     if (this.isLogin) this.$store.dispatch('fetchCart');
     window.scrollTo(0, 0);
   },
@@ -98,5 +111,9 @@ export default {
 .my-card {
   width: 100%;
   max-width: 249px;
+}
+.my-card-mobile {
+  width: 100%;
+  max-width: 160px;
 }
 </style>

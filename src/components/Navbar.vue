@@ -18,7 +18,7 @@
               </q-item>
               <q-separator />
               <template v-for="(menu, index) in categories" :key="index">
-                <q-item clickable v-ripple>
+                <q-item clickable v-ripple @click="changeCategory(menu)">
                   <q-item-section>
                     {{ menu }}
                   </q-item-section>
@@ -60,7 +60,23 @@
       </q-toolbar>
 
       <div v-if="search" class="q-mx-auto q-pt-xs q-pb-sm" style="max-width: 350px">
-        <q-input @keyup="searchKeyword" square outlined v-model="keyword" label="Search" dense :autofocus="true">
+        <q-input @keyup="searchKeyword" square outlined v-model="keyword" label="Search" dense :autofocus="true" class="desktop-only">
+          <template v-slot:append>
+            <q-icon name="close" @click="closeSearch" class="cursor-pointer" />
+          </template>
+        </q-input>
+
+        <q-input
+          @keyup="searchKeyword"
+          square
+          outlined
+          v-model="keyword"
+          label="Search"
+          dense
+          :autofocus="true"
+          class="mobile-only"
+          style="font-size: 16px;"
+        >
           <template v-slot:append>
             <q-icon name="close" @click="closeSearch" class="cursor-pointer" />
           </template>
@@ -73,7 +89,7 @@
       </q-tabs>
 
       <div v-if="shop && !loginCart" class="bg-white desktop-only">
-        <q-tabs dense class="q-mb-xs" v-model="catTab" @click="changeCategory">
+        <q-tabs dense class="q-mb-xs" v-model="catTab" @click="changeCategory('')">
           <q-tab v-for="(cat, i) in categories" :key="i" :ripple="false" class="letter-space q-mx-xs cursor-pointer" :name="cat" :label="cat" />
         </q-tabs>
       </div>
@@ -189,7 +205,8 @@ export default {
       }
       window.scrollTo(0, 0);
     },
-    changeCategory() {
+    changeCategory(catArg) {
+      if (catArg) this.catTab = catArg;
       this.categories.forEach((cat) => {
         if (this.catTab == cat) {
           this.$store.commit('FILTER_PRODUCTS', this.catTab);
