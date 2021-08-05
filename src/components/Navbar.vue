@@ -3,14 +3,14 @@
     <q-header class="q-py-xs text-dark bg-white">
       <q-toolbar>
         <div class="q-pa-md q-gutter-sm absolute-left">
-          <q-btn v-if="shop" class="mobile-only" dense :ripple="false" flat @click="drawer = !drawer" round icon="menu" />
+          <q-btn class="mobile-only" dense :ripple="false" flat @click="drawer = !drawer" round icon="menu" />
           <q-btn dense :ripple="false" flat round class="text-dark" icon="search" @click="searchButton($route.path)" :color="color.search" />
         </div>
 
         <!-- drawer -->
         <q-drawer v-model="drawer" :width="200" overlay bordered horizontal class="text-dark bg-white column justify-between">
           <div>
-            <q-list class="text-uppercase">
+            <q-list v-if="shop" class="text-uppercase">
               <q-item>
                 <q-item-section class="text-weight-bold text-subtitle1">
                   select category
@@ -25,13 +25,36 @@
                 </q-item>
               </template>
             </q-list>
+            <q-list v-else class="text-uppercase q-mt-md">
+              <q-item clickable v-ripple>
+                <q-item-section avatar>
+                  <q-icon name="person_outline" />
+                </q-item-section>
+                <q-item-section>
+                  profile
+                </q-item-section>
+              </q-item>
+              <q-item clickable v-ripple @click="(drawer = false), showCart()">
+                <q-item-section avatar>
+                  <q-icon name="o_shopping_bag" />
+                </q-item-section>
+                <q-item-section>
+                  cart
+                </q-item-section>
+              </q-item>
+            </q-list>
           </div>
           <q-space />
           <div>
             <q-separator />
-            <q-item clickable v-ripple>
+            <q-item v-if="isLogin" clickable v-ripple @click="logout">
               <q-item-section class="text-weight-bold text-uppercase text-subtitle1">
                 sign out
+              </q-item-section>
+            </q-item>
+            <q-item v-else clickable v-ripple @click="login($route.path)">
+              <q-item-section class="text-weight-bold text-uppercase text-subtitle1">
+                sign in
               </q-item-section>
             </q-item>
           </div>
@@ -44,7 +67,16 @@
         </q-toolbar-title>
 
         <div class="q-pa-md q-gutter-sm absolute-right">
-          <q-btn dense :ripple="false" flat round class="text-dark" icon="person_outline" @click="login($route.path)" :color="color.person">
+          <q-btn
+            dense
+            :ripple="false"
+            flat
+            round
+            class="text-dark desktop-only"
+            icon="person_outline"
+            @click="login($route.path)"
+            :color="color.person"
+          >
             <q-menu dense v-if="isLogin">
               <q-list dense style="min-width: 100px">
                 <q-item dense clickable v-close-popup>
@@ -100,45 +132,6 @@
 <script>
 import { ref } from 'vue';
 
-const menuList = [
-  {
-    icon: 'inbox',
-    label: 'Inbox',
-    separator: true,
-  },
-  {
-    icon: 'send',
-    label: 'Outbox',
-    separator: false,
-  },
-  {
-    icon: 'delete',
-    label: 'Trash',
-    separator: false,
-  },
-  {
-    icon: 'error',
-    label: 'Spam',
-    separator: true,
-  },
-  {
-    icon: 'settings',
-    label: 'Settings',
-    separator: false,
-  },
-  {
-    icon: 'feedback',
-    label: 'Send Feedback',
-    separator: false,
-  },
-  {
-    icon: 'help',
-    iconColor: 'primary',
-    label: 'Help',
-    separator: false,
-  },
-];
-
 export default {
   name: 'Navbar',
 
@@ -148,7 +141,6 @@ export default {
       catTab: ref('all'),
       keyword: ref(''),
       drawer: ref(true),
-      menuList,
     };
   },
 

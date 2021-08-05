@@ -1,6 +1,6 @@
 <template>
   <div class="nunito-font">
-    <q-layout view="hHh lpr fff">
+    <q-layout view="lHh lpr lff">
       <Navbar></Navbar>
 
       <q-page-container>
