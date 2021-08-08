@@ -3,62 +3,19 @@
     <q-header class="q-py-xs text-dark bg-white">
       <q-toolbar>
         <div class="q-pa-md q-gutter-sm absolute-left">
-          <q-btn class="mobile-only" dense :ripple="false" flat @click="drawer = !drawer" round icon="menu" />
-          <q-btn dense :ripple="false" flat round class="text-dark" icon="search" @click="searchButton($route.path)" :color="color.search" />
+          <q-btn v-if="!sign" class="mobile-only" dense :ripple="false" flat @click="drawer = !drawer" round icon="menu" />
+          <q-btn
+            v-if="!sign"
+            dense
+            :ripple="false"
+            flat
+            round
+            class="text-dark"
+            icon="search"
+            @click="searchButton($route.path)"
+            :color="color.search"
+          />
         </div>
-
-        <!-- drawer -->
-        <q-drawer v-model="drawer" :width="200" overlay bordered horizontal class="text-dark bg-white column justify-between">
-          <div>
-            <q-list v-if="shop" class="text-uppercase">
-              <q-item>
-                <q-item-section class="text-weight-bold text-subtitle1">
-                  select category
-                </q-item-section>
-              </q-item>
-              <q-separator />
-              <template v-for="(menu, index) in categories" :key="index">
-                <q-item clickable v-ripple @click="changeCategory(menu)">
-                  <q-item-section>
-                    {{ menu }}
-                  </q-item-section>
-                </q-item>
-              </template>
-            </q-list>
-            <q-list v-else class="text-uppercase q-mt-md">
-              <q-item clickable v-ripple>
-                <q-item-section avatar>
-                  <q-icon name="person_outline" />
-                </q-item-section>
-                <q-item-section>
-                  profile
-                </q-item-section>
-              </q-item>
-              <q-item clickable v-ripple @click="(drawer = false), showCart()">
-                <q-item-section avatar>
-                  <q-icon name="o_shopping_bag" />
-                </q-item-section>
-                <q-item-section>
-                  cart
-                </q-item-section>
-              </q-item>
-            </q-list>
-          </div>
-          <q-space />
-          <div>
-            <q-separator />
-            <q-item v-if="isLogin" clickable v-ripple @click="logout">
-              <q-item-section class="text-weight-bold text-uppercase text-subtitle1">
-                sign out
-              </q-item-section>
-            </q-item>
-            <q-item v-else clickable v-ripple @click="login($route.path)">
-              <q-item-section class="text-weight-bold text-uppercase text-subtitle1">
-                sign in
-              </q-item-section>
-            </q-item>
-          </div>
-        </q-drawer>
 
         <q-toolbar-title class="q-mt-sm q-pb-xs text-h4 text-center text-grey-8 poppins-font" @click="(tab = 'home'), changeTab('home')">
           <span class="cursor-pointer" @click="(tab = 'home'), changeTab('home')">
@@ -68,6 +25,7 @@
 
         <div class="q-pa-md q-gutter-sm absolute-right">
           <q-btn
+            v-if="!sign"
             dense
             :ripple="false"
             flat
@@ -85,7 +43,7 @@
               </q-list>
             </q-menu>
           </q-btn>
-          <q-btn @click="showCart" dense :ripple="false" flat round class="text-dark" icon="o_shopping_bag" :color="color.bag">
+          <q-btn v-if="!sign" @click="showCart" dense :ripple="false" flat round class="text-dark" icon="o_shopping_bag" :color="color.bag">
             <q-badge v-if="carts.length > 0" color="green" floating transparent>{{ carts.length }}</q-badge>
           </q-btn>
         </div>
@@ -115,9 +73,9 @@
         </q-input>
       </div>
 
-      <q-tabs v-if="!search" v-model="tab" @click="changeTab('')">
-        <q-tab :ripple="false" class="letter-space q-mx-sm q-mt-xs" name="home" label="home" />
-        <q-tab :ripple="false" class="letter-space q-mx-sm q-mt-xs" name="shop" label="shop" />
+      <q-tabs v-if="!search" v-model="tab">
+        <q-route-tab to="/" exact :ripple="false" class="letter-space q-mx-sm q-mt-xs" name="home" label="home" @click="changeTab()" />
+        <q-route-tab to="/shop" exact :ripple="false" class="letter-space q-mx-sm q-mt-xs" name="shop" label="shop" @click="changeTab()" />
       </q-tabs>
 
       <div v-if="shop && !loginCart" class="bg-white desktop-only">
@@ -138,9 +96,9 @@ export default {
   setup() {
     return {
       tab: ref('home'),
-      catTab: ref('all'),
+      // catTab: ref('all'),
       keyword: ref(''),
-      drawer: ref(true),
+      // drawer: ref(true),
     };
   },
 
@@ -154,7 +112,8 @@ export default {
         search: '',
       },
       search: false,
-      shop: false,
+      // shop: false,
+      sign: false,
     };
   },
   computed: {
@@ -172,6 +131,30 @@ export default {
         this.$store.commit('SET_ROUTE', value);
       },
     },
+    drawer: {
+      get() {
+        return this.$store.state.drawer;
+      },
+      set(value) {
+        this.$store.commit('SET_DRAWER', value);
+      },
+    },
+    catTab: {
+      get() {
+        return this.$store.state.catTab;
+      },
+      set(value) {
+        this.$store.commit('SET_TAB', value);
+      },
+    },
+    shop: {
+      get() {
+        return this.$store.state.shop;
+      },
+      set(value) {
+        this.$store.commit('SET_SHOP', value);
+      },
+    },
     loginCart: {
       get() {
         return this.$store.state.loginCart;
@@ -187,12 +170,17 @@ export default {
 
   methods: {
     changeTab(home) {
-      if (this.tab == 'shop' && !home) {
-        this.shop = true;
-        this.$router.push('/shop');
-      } else if (this.tab == 'home' || home) {
-        this.tab = 'home';
+      if (this.tab == 'shop') {
         this.shop = false;
+        // this.$router.push('/shop');
+      } else if (this.tab == 'home' && !home) {
+        this.catTab = 'all';
+        this.changeCategory('all');
+        // if (this.catTab == 'all') this.$store.dispatch('fetchData');
+        this.shop = true;
+      } else if (home) {
+        this.shop = false;
+        this.tab = 'home';
         this.$router.push('/');
       }
       window.scrollTo(0, 0);
@@ -257,6 +245,11 @@ export default {
         if (newValue.path == '/shop') {
           this.shop = true;
           // this.loginCart = false;
+        }
+        if (newValue.path == '/login' || newValue.path == '/register') {
+          this.sign = true;
+        } else {
+          this.sign = false;
         }
       },
     },

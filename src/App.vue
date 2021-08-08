@@ -3,6 +3,8 @@
     <q-layout view="lHh lpr lff">
       <Navbar></Navbar>
 
+      <Drawer></Drawer>
+
       <q-page-container>
         <q-page class="q-mb-md">
           <router-view></router-view>
@@ -17,12 +19,14 @@
 <script>
 import Navbar from './components/Navbar.vue';
 import Footer from './components/Footer.vue';
+import Drawer from './components/Drawer.vue';
 
 export default {
   name: 'App',
   components: {
     Navbar,
     Footer,
+    Drawer,
   },
   created() {
     this.$store.dispatch('fetchData');

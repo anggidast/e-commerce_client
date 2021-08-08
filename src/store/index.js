@@ -23,6 +23,12 @@ export default createStore({
     shopBanner: {},
 
     errorMsg: '',
+
+    drawer: true,
+
+    shop: false,
+
+    catTab: 'all',
   },
   mutations: {
     SET_LOADING(state, payload) {
@@ -86,6 +92,18 @@ export default createStore({
 
     SET_ERROR_MSG(state, message) {
       state.errorMsg = message;
+    },
+
+    SET_DRAWER(state, payload) {
+      state.drawer = payload;
+    },
+
+    SET_SHOP(state, payload) {
+      state.shop = payload;
+    },
+
+    SET_TAB(state, payload) {
+      state.catTab = payload;
     },
   },
   actions: {

@@ -100,7 +100,7 @@ export default {
     },
   },
   created() {
-    this.$store.dispatch('fetchData');
+    // this.$store.dispatch('fetchData');
     if (this.isLogin) this.$store.dispatch('fetchCart');
     window.scrollTo(0, 0);
   },

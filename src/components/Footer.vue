@@ -1,6 +1,6 @@
 <template>
   <q-footer class="bg-dark q-px-xl q-py-lg">
-    <div class="q-gutter-lg q-px-xs-xs q-px-md-xl q-py-lg row  justify-xs-start justify-sm-center">
+    <div class="q-gutter-lg q-px-xs-xs q-px-md-xl q-py-lg row justify-xs-start justify-sm-center">
       <!-- <div class="row q-gutter-xl full-width"> -->
 
       <div col-xs-12 col-sm-4>
