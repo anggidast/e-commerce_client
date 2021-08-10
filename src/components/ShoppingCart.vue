@@ -11,7 +11,7 @@
         <q-separator />
 
         <q-card-section style="max-height:80%" class="scroll">
-          <q-card v-for="cart in carts" :key="cart.id" flat square style="height: 150px" class="full-width q-mb-lg">
+          <q-card v-for="(cart, i) in carts" :key="cart.id" flat square style="height: 150px" class="full-width q-mb-lg">
             <q-card-section horizontal class="no-margin no-padding">
               <q-img class="q-mr-lg" style="max-width: 100px" :src="cart.Product.image_url1" />
               <q-card-section class="column no-margin no-padding">
@@ -34,9 +34,9 @@
               </q-card-section>
               <q-space />
               <q-card-section class="column no-margin no-padding">
+                <q-checkbox v-model="check[i]" color="teal" />
                 <q-space />
                 <q-btn @click="deleteCart(cart.id)" dense :ripple="false" flat rounded icon="delete" />
-                <q-space />
               </q-card-section>
             </q-card-section>
             <q-separator class="q-my-sm" />
@@ -67,7 +67,7 @@
         <q-separator />
 
         <q-card-section style="max-height: 82%" class="scroll">
-          <q-card v-for="cart in carts" :key="cart.id" flat square style="height: 150px" class="full-width q-mb-lg">
+          <q-card v-for="(cart, i) in carts" :key="cart.id" flat square style="height: 150px" class="full-width q-mb-lg">
             <q-card-section horizontal class="no-margin no-padding">
               <q-img class="q-mr-lg" style="max-width: 100px" :src="cart.Product.image_url1" />
               <q-card-section class="column no-margin no-padding">
@@ -90,9 +90,9 @@
               </q-card-section>
               <q-space />
               <q-card-section class="column no-margin no-padding">
+                <q-checkbox v-model="check[i]" color="teal" />
                 <q-space />
                 <q-btn @click="deleteCart(cart.id)" dense :ripple="false" flat rounded icon="delete" />
-                <q-space />
               </q-card-section>
             </q-card-section>
             <q-separator class="q-my-sm" />
@@ -122,6 +122,7 @@ export default {
     return {
       dialog: ref(true),
       fixed: ref(true),
+      check: ref([]),
     };
   },
   computed: {
@@ -157,6 +158,7 @@ export default {
   },
   created() {
     this.$store.dispatch('fetchCart');
+    this.carts.forEach((el) => this.check.push(false));
   },
   updated() {
     const closeCart = this.$route.path.slice(-this.$route.path.length, -5);
