@@ -208,6 +208,7 @@ export default createStore({
       })
         .then((result) => {
           console.log(result);
+          context.commit('SET_ADD_CART', { path: payload.path, id: payload.productId });
           context.dispatch('fetchCart');
           // context.commit('SET_ERROR_MSG', '');
         })

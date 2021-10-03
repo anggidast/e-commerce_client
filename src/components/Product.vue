@@ -109,6 +109,9 @@ export default {
         this.$store.commit('SET_ROUTE', value);
       },
     },
+    carts() {
+      return this.$store.state.carts;
+    },
     loginCart: {
       get() {
         return this.$store.state.loginCart;
@@ -128,10 +131,23 @@ export default {
         this.loginCart = true;
         this.$router.push('/login');
       } else {
-        this.$store.dispatch('addCart', { id: id, path: path });
-        // if (this.$route.path == `/product/${id}`) {
-        //   this.$router.push('/cart');
-        // } else this.$router.push('/shop/cart');
+        const cart = this.carts.find((el) => el.Product.id == id);
+        if (cart) {
+          if (cart.amount < cart.Product.stock) {
+            this.$store.dispatch('editCart', {
+              amount: cart.amount + 1,
+              id: cart.id,
+              path,
+              productId: id,
+            });
+          } else {
+            if (this.$route.path == `/product/${id}`) {
+              this.$router.push('/cart');
+            } else this.$router.push('/shop/cart');
+          }
+        } else {
+          this.$store.dispatch('addCart', { id: id, path: path });
+        }
       }
     },
     closeModal() {
