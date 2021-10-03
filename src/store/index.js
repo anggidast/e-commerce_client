@@ -29,6 +29,8 @@ export default createStore({
     shop: false,
 
     catTab: 'all',
+
+    addCart: {},
   },
   mutations: {
     SET_LOADING(state, payload) {
@@ -105,6 +107,11 @@ export default createStore({
     SET_TAB(state, payload) {
       state.catTab = payload;
     },
+
+    SET_ADD_CART(state, payload) {
+      state.addCart.path = payload.path;
+      state.addCart.id = payload.id;
+    },
   },
   actions: {
     fetchData(context) {
@@ -143,7 +150,7 @@ export default createStore({
           console.log(err.response.data.message);
         });
     },
-    addCart(context, id) {
+    addCart(context, { id, path }) {
       axios({
         method: 'POST',
         url: '/carts/' + id,
@@ -156,7 +163,9 @@ export default createStore({
       })
         .then((result) => {
           console.log(result);
+          context.commit('SET_ADD_CART', { path: path, id: id });
           context.dispatch('fetchCart');
+
           // context.commit('SET_ERROR_MSG', '');
         })
         .catch((err) => {
@@ -175,6 +184,11 @@ export default createStore({
         .then((result) => {
           console.log(result);
           context.commit('SET_CARTS', result.data.data);
+          if (context.state.addCart.path) {
+            if (context.state.addCart.path == `/product/${context.state.addCart.id}`) {
+              router.push('/cart');
+            } else router.push('/shop/cart');
+          }
           // context.commit('SET_ERROR_MSG', '');
         })
         .catch((err) => {

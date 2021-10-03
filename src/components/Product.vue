@@ -128,10 +128,10 @@ export default {
         this.loginCart = true;
         this.$router.push('/login');
       } else {
-        this.$store.dispatch('addCart', id);
-        if (this.$route.path == `/product/${id}`) {
-          this.$router.push('/cart');
-        } else this.$router.push('/shop/cart');
+        this.$store.dispatch('addCart', { id: id, path: path });
+        // if (this.$route.path == `/product/${id}`) {
+        //   this.$router.push('/cart');
+        // } else this.$router.push('/shop/cart');
       }
     },
     closeModal() {
