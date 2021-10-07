@@ -38,6 +38,9 @@
             <q-menu dense v-if="isLogin">
               <q-list dense style="min-width: 100px">
                 <q-item dense clickable v-close-popup>
+                  <q-item-section dense @click="myAddress">MY ADDRESS</q-item-section>
+                </q-item>
+                <q-item dense clickable v-close-popup>
                   <q-item-section dense @click="logout">SIGN OUT</q-item-section>
                 </q-item>
               </q-list>
@@ -236,6 +239,9 @@ export default {
       if (this.routeBefore == '/') this.changeTab('home');
       else this.$router.push(this.routeBefore);
       this.routeBefore = '';
+    },
+    myAddress() {
+      this.$router.push('/myaddress');
     },
   },
 

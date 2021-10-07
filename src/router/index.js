@@ -3,6 +3,7 @@ import Home from '../views/Home.vue';
 import Shop from '../views/Shop.vue';
 import LoginPage from '../views/LoginPage.vue';
 import RegisterPage from '../views/RegisterPage.vue';
+import AddressPage from '../views/AddressPage.vue';
 import Product from '../components/Product.vue';
 import Cart from '../components/ShoppingCart.vue';
 
@@ -42,6 +43,11 @@ const routes = [
         meta: { requiresAuth: true },
       },
     ],
+  },
+  {
+    path: '/myaddress',
+    name: 'AddressPage',
+    component: AddressPage,
   },
   {
     path: '/login',
