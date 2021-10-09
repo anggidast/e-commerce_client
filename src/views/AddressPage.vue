@@ -39,7 +39,25 @@
       </q-table>
     </div>
     <div class="q-pa-md" align="right">
-      <q-btn type="submit" square style="width: 150px" color="dark" size="md" label="add address" />
+      <q-btn type="submit" square style="width: 150px" color="dark" size="md" label="add address" @click="medium = true" />
+    </div>
+
+    <div class="q-pa-md q-gutter-sm">
+      <q-dialog v-model="medium">
+        <q-card style="width: 700px; max-width: 80vw;">
+          <q-card-section>
+            <div class="text-h6">Add Address</div>
+          </q-card-section>
+
+          <q-card-section class="q-pt-none">
+            Click/Tap on the backdrop.
+          </q-card-section>
+
+          <q-card-actions align="right" class="bg-white text-teal">
+            <q-btn flat label="OK" v-close-popup />
+          </q-card-actions>
+        </q-card>
+      </q-dialog>
     </div>
   </div>
 </template>
@@ -62,15 +80,17 @@
 //     province: 'Banten',
 //   },
 // ];
+import { ref } from 'vue';
 
 export default {
   name: 'AddressPage',
-  // setup() {
-  //   return {
-  //     columns,
-  //     rows,
-  //   };
-  // },
+  setup() {
+    return {
+      medium: ref(false),
+      // columns,
+      // rows,
+    };
+  },
   data() {
     return {
       columns: [
@@ -90,6 +110,11 @@ export default {
         },
       ],
     };
+  },
+  methods: {
+    addAddress() {
+      this.$router.push('/myaddress/form');
+    },
   },
 };
 </script>

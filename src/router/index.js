@@ -6,6 +6,7 @@ import RegisterPage from '../views/RegisterPage.vue';
 import AddressPage from '../views/AddressPage.vue';
 import Product from '../components/Product.vue';
 import Cart from '../components/ShoppingCart.vue';
+import AddressForm from '../components/AddressForm.vue';
 
 const routes = [
   {
@@ -48,6 +49,13 @@ const routes = [
     path: '/myaddress',
     name: 'AddressPage',
     component: AddressPage,
+    children: [
+      {
+        path: 'form',
+        name: 'AddressForm',
+        component: AddressForm,
+      },
+    ],
   },
   {
     path: '/login',
