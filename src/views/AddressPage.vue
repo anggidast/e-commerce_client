@@ -45,8 +45,10 @@
     <div class="q-pa-md q-gutter-sm">
       <q-dialog v-model="medium">
         <q-card square flat style="width: 700px; max-width: 80vw;" class="column justify-center">
-          <q-card-section>
-            <div class="text-weight-medium text-h5 text-uppercase poppins-font">Add Address</div>
+          <q-card-section horizontal>
+            <div class="q-my-sm q-ml-md text-weight-medium text-h5 text-uppercase poppins-font">Add Address</div>
+            <q-space />
+            <q-btn icon="close" size="lg" flat round dense v-close-popup :to="close" />
           </q-card-section>
 
           <q-card-section>
