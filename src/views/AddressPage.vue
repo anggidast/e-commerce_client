@@ -39,23 +39,54 @@
       </q-table>
     </div>
     <div class="q-pa-md" align="right">
-      <q-btn type="submit" square style="width: 150px" color="dark" size="md" label="add address" @click="medium = true" />
+      <q-btn square style="width: 150px" color="dark" size="md" label="add address" @click="medium = true" />
     </div>
 
     <div class="q-pa-md q-gutter-sm">
       <q-dialog v-model="medium">
-        <q-card style="width: 700px; max-width: 80vw;">
+        <q-card square flat style="width: 700px; max-width: 80vw;" class="column justify-center">
           <q-card-section>
-            <div class="text-h6">Add Address</div>
+            <div class="text-weight-medium text-h5 text-uppercase poppins-font">Add Address</div>
           </q-card-section>
 
-          <q-card-section class="q-pt-none">
-            Click/Tap on the backdrop.
+          <q-card-section>
+            <q-form>
+              <div class="row">
+                <div class="col">
+                  <span class="text-weight-bold">Name</span>
+                  <q-input type="text" class="q-mt-sm q-mb-md" square outlined dense required />
+                </div>
+                <q-space class="q-px-xs" />
+                <div class="col">
+                  <span class="text-weight-bold">Receiver</span>
+                  <q-input type="text" class="q-mt-sm q-mb-md" square outlined dense required />
+                </div>
+              </div>
+
+              <div>
+                <span class="text-weight-bold">Address Detail</span>
+                <q-input type="text" class="q-mt-sm q-mb-md" square outlined dense required />
+              </div>
+
+              <div class="row">
+                <div class="col">
+                  <span class="text-weight-bold">Province</span>
+                  <q-input type="text" class="q-mt-sm q-mb-md" square outlined dense required />
+                </div>
+                <q-space class="q-px-xs" />
+                <div class="col">
+                  <span class="text-weight-bold">City</span>
+                  <q-input type="text" class="q-mt-sm q-mb-md" square outlined dense required />
+                </div>
+              </div>
+
+              <q-btn type="submit" square class="full-width" color="dark" size="md" label="add address" />
+            </q-form>
           </q-card-section>
 
-          <q-card-actions align="right" class="bg-white text-teal">
+          <!-- <q-card-actions align="right" class="bg-white text-teal">
             <q-btn flat label="OK" v-close-popup />
-          </q-card-actions>
+          </q-card-actions> -->
         </q-card>
       </q-dialog>
     </div>
