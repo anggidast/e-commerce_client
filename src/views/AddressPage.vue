@@ -52,33 +52,42 @@
           </q-card-section>
 
           <q-card-section>
-            <q-form>
+            <q-form @submit="addAddress">
               <div class="row">
                 <div class="col">
                   <span class="text-weight-bold">Name</span>
-                  <q-input type="text" class="q-mt-sm q-mb-md" square outlined dense required />
+                  <q-input type="text" v-model="name" class="q-mt-sm q-mb-md" placeholder="e.g. Home; Office" square outlined dense required />
                 </div>
                 <q-space class="q-px-xs" />
                 <div class="col">
                   <span class="text-weight-bold">Receiver</span>
-                  <q-input type="text" class="q-mt-sm q-mb-md" square outlined dense required />
+                  <q-input type="text" v-model="receiver" class="q-mt-sm q-mb-md" placeholder="e.g. John Doe" square outlined dense required />
                 </div>
               </div>
 
               <div>
                 <span class="text-weight-bold">Address Detail</span>
-                <q-input type="text" class="q-mt-sm q-mb-md" square outlined dense required />
+                <q-input
+                  type="textarea"
+                  v-model="address"
+                  class="q-mt-sm q-mb-md"
+                  placeholder="Input address detail: block; floor number; street number, etc."
+                  square
+                  outlined
+                  dense
+                  required
+                />
               </div>
 
               <div class="row">
                 <div class="col">
                   <span class="text-weight-bold">Province</span>
-                  <q-input type="text" class="q-mt-sm q-mb-md" square outlined dense required />
+                  <q-select class="q-mt-sm q-mb-md" v-model="province" :options="provinces" label="-- choose province --" square outlined required />
                 </div>
                 <q-space class="q-px-xs" />
                 <div class="col">
                   <span class="text-weight-bold">City</span>
-                  <q-input type="text" class="q-mt-sm q-mb-md" square outlined dense required />
+                  <q-select type="text" class="q-mt-sm q-mb-md" v-model="city" :options="cities" label="-- choose city --" square outlined required />
                 </div>
               </div>
 
@@ -142,11 +151,26 @@ export default {
           province: 'Banten',
         },
       ],
+
+      provinces: ['Banten', 'D.K.I. Jakarta', 'Jawa Barat'],
+      cities: ['Tangerang', 'Serang', 'Jakarta Selatan', 'Jakarta Pusat', 'Bandung', 'Bogor'],
+
+      name: '',
+      receiver: '',
+      address: '',
+      province: '',
+      city: '',
     };
   },
   methods: {
     addAddress() {
-      this.$router.push('/myaddress/form');
+      this.rows.push({
+        name: this.name,
+        receiver: this.receiver,
+        address: this.address,
+        province: this.province,
+        city: this.city,
+      });
     },
   },
 };
