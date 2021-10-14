@@ -34,6 +34,9 @@
                 <q-input v-model="props.row.province" dense autofocus counter />
               </q-popup-edit>
             </q-td>
+            <q-td key="action" :props="props">
+              <q-btn dense :ripple="false" flat rounded icon="delete" @click="deleteAddress(props.row)" />
+            </q-td>
           </q-tr>
         </template>
       </q-table>
@@ -141,6 +144,7 @@ export default {
         { name: 'address', label: 'Address', field: 'address' },
         { name: 'city', label: 'City', field: 'city' },
         { name: 'province', label: 'Province', field: 'province' },
+        { name: 'action', label: 'Action', field: 'action' },
       ],
       rows: [
         {
@@ -171,6 +175,11 @@ export default {
         province: this.province,
         city: this.city,
       });
+    },
+
+    deleteAddress(props) {
+      console.log(props);
+      this.rows = this.rows.filter((el) => el.name != props.name && el.receiver != props.receiver);
     },
   },
 };
