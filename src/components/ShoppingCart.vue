@@ -160,6 +160,7 @@ export default {
         if (this.checkbox[i]) {
           this.amount -= this.check[i];
           this.price -= price * this.check[i];
+          this.check[i] = +amount;
           this.amount += +amount;
           this.price += price * +amount;
         }
