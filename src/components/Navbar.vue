@@ -5,7 +5,7 @@
         <div class="q-pa-md q-gutter-sm absolute-left">
           <q-btn v-if="!sign" class="mobile-only" dense :ripple="false" flat @click="drawer = !drawer" round icon="menu" />
           <q-btn
-            v-if="!sign"
+            v-if="!sign && !hideSearchButton"
             dense
             :ripple="false"
             flat
@@ -81,7 +81,7 @@
         <q-route-tab to="/shop" exact :ripple="false" class="letter-space q-mx-sm q-mt-xs" name="shop" label="shop" @click="changeTab()" />
       </q-tabs>
 
-      <div v-if="shop && !loginCart" class="bg-white desktop-only">
+      <div v-if="shop && !loginCart && !hideSearchButton && !search" class="bg-white desktop-only">
         <q-tabs dense class="q-mb-xs" v-model="catTab" @click="changeCategory('')">
           <q-tab v-for="(cat, i) in categories" :key="i" :ripple="false" class="letter-space q-mx-xs cursor-pointer" :name="cat" :label="cat" />
         </q-tabs>
@@ -117,6 +117,7 @@ export default {
       search: false,
       // shop: false,
       sign: false,
+      hideSearchButton: false,
     };
   },
   computed: {
@@ -175,7 +176,7 @@ export default {
     changeTab(home) {
       if (this.tab == 'shop') {
         this.shop = false;
-        // this.$router.push('/shop');
+        this.$router.push('/shop');
       } else if (this.tab == 'home' && !home) {
         this.catTab = 'all';
         this.changeCategory('all');
@@ -224,7 +225,7 @@ export default {
     searchKeyword() {
       this.tab = 'shop';
       this.changeTab();
-      this.$store.commit('KEYWORD_FILTER', this.keyword);
+      this.$store.commit('KEYWORD_FILTER', this.keyword.toLowerCase());
     },
     searchButton(path) {
       this.keyword = '';
@@ -236,8 +237,10 @@ export default {
       this.search = !this.search;
       this.keyword = '';
       this.searchKeyword();
-      if (this.routeBefore == '/') this.changeTab('home');
-      else this.$router.push(this.routeBefore);
+      if (this.routeBefore == '/') {
+        this.changeTab('home');
+      } else this.shop = true;
+      this.$router.push(this.routeBefore);
       this.routeBefore = '';
     },
     myAddress() {
@@ -256,6 +259,12 @@ export default {
           this.sign = true;
         } else {
           this.sign = false;
+        }
+        if (newValue.path == '/myaddress') {
+          this.hideSearchButton = true;
+          this.shop = false;
+        } else {
+          this.hideSearchButton = false;
         }
       },
     },
