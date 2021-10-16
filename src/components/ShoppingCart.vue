@@ -141,8 +141,10 @@ export default {
     close() {
       if (this.$route.path == '/cart') {
         return '/';
-      } else {
+      } else if (this.$route.path == '/shop/cart') {
         return '/shop';
+      } else {
+        return '/myaddress';
       }
     },
     subTotal() {

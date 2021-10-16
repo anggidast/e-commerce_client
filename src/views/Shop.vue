@@ -45,13 +45,13 @@
 
 <script>
 import { ref } from 'vue';
-import Cart from '../components/ShoppingCart.vue';
+// import Cart from '../components/ShoppingCart.vue';
 
 export default {
   name: 'Shop',
-  components: {
-    Cart,
-  },
+  // components: {
+  //   Cart,
+  // },
   setup() {
     return {
       model: ref(null),

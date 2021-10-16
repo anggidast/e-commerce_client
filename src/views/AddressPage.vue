@@ -104,6 +104,8 @@
         </q-card>
       </q-dialog>
     </div>
+
+    <router-view></router-view>
   </div>
 </template>
 
@@ -181,6 +183,10 @@ export default {
       console.log(props);
       this.rows = this.rows.filter((el) => el.name != props.name && el.receiver != props.receiver);
     },
+  },
+  created() {
+    if (this.isLogin) this.$store.dispatch('fetchCart');
+    // window.scrollTo(0, 0);
   },
 };
 </script>

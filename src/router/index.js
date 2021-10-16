@@ -51,10 +51,16 @@ const routes = [
     component: AddressPage,
     children: [
       {
-        path: 'form',
-        name: 'AddressForm',
-        component: AddressForm,
+        path: 'cart',
+        name: 'AddressCart',
+        component: Cart,
+        meta: { requiresAuth: true },
       },
+      // {
+      //   path: 'form',
+      //   name: 'AddressForm',
+      //   component: AddressForm,
+      // },
     ],
   },
   {

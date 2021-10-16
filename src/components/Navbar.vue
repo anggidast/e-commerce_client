@@ -260,7 +260,7 @@ export default {
         } else {
           this.sign = false;
         }
-        if (newValue.path == '/myaddress') {
+        if (newValue.path == '/myaddress' || newValue.path == '/myaddress/cart') {
           this.hideSearchButton = true;
           this.shop = false;
         } else {
