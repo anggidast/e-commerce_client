@@ -4,9 +4,9 @@ import Shop from '../views/Shop.vue';
 import LoginPage from '../views/LoginPage.vue';
 import RegisterPage from '../views/RegisterPage.vue';
 import AddressPage from '../views/AddressPage.vue';
+import CheckOutPage from '../views/CheckOutPage.vue';
 import Product from '../components/Product.vue';
 import Cart from '../components/ShoppingCart.vue';
-import AddressForm from '../components/AddressForm.vue';
 
 const routes = [
   {
@@ -62,6 +62,11 @@ const routes = [
       //   component: AddressForm,
       // },
     ],
+  },
+  {
+    path: '/checkout',
+    name: 'CheckOutPage',
+    component: CheckOutPage,
   },
   {
     path: '/login',

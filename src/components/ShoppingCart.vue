@@ -52,7 +52,7 @@
             <div class="text-weight-medium">Rp. {{ price.toLocaleString('id-ID') }}</div>
           </div>
           <q-space />
-          <q-btn dense color="dark" class="q-mr-md" :label="`checkout (${amount})`" />
+          <q-btn @click="checkOut" dense color="dark" class="q-mr-md" :label="`checkout (${amount})`" />
         </q-card-actions>
       </q-card>
     </q-dialog>
@@ -108,7 +108,7 @@
             >Subtotal:<span class="text-weight-medium"> Rp. {{ price.toLocaleString('id-ID') }}</span></span
           >
           <q-space />
-          <q-btn dense color="dark" class="q-mr-md" :label="`checkout (${amount})`" />
+          <q-btn @click="checkOut" dense color="dark" class="q-mr-md" :label="`checkout (${amount})`" />
         </q-card-actions>
       </q-card>
     </q-dialog>
@@ -184,6 +184,9 @@ export default {
         this.amount -= amount;
         this.price -= price * amount;
       }
+    },
+    checkOut() {
+      this.$router.push('/checkout');
     },
   },
   created() {

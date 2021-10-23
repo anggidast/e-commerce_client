@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="q-pa-md">
-      <q-table title="My Address" :rows="rows" :columns="columns" row-key="name">
+      <q-table title="My Address" :rows="rows" :columns="columns" row-key="name" square class="shadow-1">
         <template v-slot:body="props">
           <q-tr :props="props">
             <q-td key="name" :props="props">
