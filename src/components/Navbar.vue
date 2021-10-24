@@ -17,7 +17,7 @@
           />
         </div>
 
-        <q-toolbar-title class="q-mt-sm q-pb-xs text-h4 text-center text-grey-8 poppins-font" @click="(tab = 'home'), changeTab('home')">
+        <q-toolbar-title class="q-mt-sm q-pb-xs text-h4 text-center text-grey-8 poppins-font">
           <span class="cursor-pointer" @click="(tab = 'home'), changeTab('home')">
             <span class="text-weight-medium">dast</span><span class="text-weight-bold text-red">.</span><span class="text-weight-light">co</span>
           </span>

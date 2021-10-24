@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="q-pa-md">
+    <div class="q-py-md q-px-xl">
       <q-table title="My Address" :rows="rows" :columns="columns" row-key="name" square class="shadow-1">
         <template v-slot:body="props">
           <q-tr :props="props">
